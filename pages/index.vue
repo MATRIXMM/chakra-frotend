@@ -1,77 +1,118 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+  <v-row no-gutters>
+    <v-col>
+      <v-img
+        src="/images/background.png"
+        gradient="to top left, rgba(0,0,0,.33), rgba(57, 57, 57, 0.3)"
+        height="100vh"
+      >
+        <v-container fill-height>
+          <v-col cols="12">
+            <v-row no-gutters justify="end">
+              <v-card flat width="450" height="550" class="login-card">
+                <v-card-text>
+                  <div class="login-title">
+                    <v-img max-width="200" class="mx-auto" contain src="/images/logo.png"></v-img>
+                    <h3>Inicia sesión para continuar</h3>
+                  </div>
+                  <v-form ref="form" v-model="valid" class="my-8">
+                    <v-text-field
+                      label="Correo electrónico"
+                      v-model="email"
+                      :rules="emailRules"
+                      required
+                      outlined
+                    ></v-text-field>
+                    <v-text-field
+                      label="Contraseña"
+                      :type="visibility ? 'text' : 'password'"
+                      v-model="password"
+                      :rules="passwordRules"
+                      :append-icon="visibility ? 'mdi-eye' : 'mdi-eye-off'"
+                      @click:append="visibility = !visibility"
+                      required
+                      outlined
+                    ></v-text-field>
+                    <p class="body-2 forgot">
+                      ¿Olvidaste tu contraseña?
+                    </p>
+                  </v-form>
+                  <v-flex class="text-center">
+                  <v-btn
+                    height="50"
+                    width="200"
+                    rounded
+                    color="primary"
+                    @click="login"
+                    >Iniciar Sesión</v-btn
+                  >
+                  </v-flex>
+                </v-card-text>
+              </v-card>
+            </v-row>
+          </v-col>
+        </v-container>
+      </v-img>
     </v-col>
   </v-row>
 </template>
+<script>
+// import { mapActions, mapState } from "vuex";
+
+export default {
+  data() {
+    return {
+      valid: false,
+      email: "",
+      emailRules: [
+        (v) => !!v || "El correo es requerido",
+        (v) => /.+@.+\..+/.test(v) || "El correo debe ser válido",
+      ],
+      password: "",
+      visibility: false,
+      passwordRules: [(v) => !!v || "La contraseña es obligatoria"],
+    };
+  },
+  // computed: {
+  //   ...mapState({
+  //     loading: (state) => state.auth.loading,
+  //   }),
+  // },
+  methods: {
+    login() {
+      this.$refs.form.validate();
+      const payload = { email: this.email, password: this.password };
+      // if (this.valid) {
+      //   this.loginState({ payload });
+      // }
+    },
+    // ...mapActions({
+    //   loginState: "auth/login",
+    // }),
+  },
+};
+</script>
+<style scoped lang="scss">
+.login-card {
+  border-radius: 10px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+}
+.login-title {
+  margin-bottom: 40px;
+  text-align: center;
+  h2 {
+    font-size: 35px;
+    color: #1ecd96 !important;
+    margin-bottom: 15px;
+  }
+  h3 {
+    letter-spacing: 1.04px;
+  }
+}
+.forgot {
+  cursor: pointer;
+  text-align: right;
+}
+</style>
