@@ -82,6 +82,7 @@ export default {
     login() {
       this.$refs.form.validate();
       const payload = { email: this.email, password: this.password };
+      this.$router.push('/welcome')
       // if (this.valid) {
       //   this.loginState({ payload });
       // }
