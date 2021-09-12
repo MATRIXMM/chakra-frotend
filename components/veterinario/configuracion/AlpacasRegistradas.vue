@@ -20,16 +20,29 @@
         <v-spacer></v-spacer>
       </v-card-title>
       <v-data-table
+        v-if="familias"
         :headers="headers"
         :items="familia"
         :search="search"
         @click:row="imprimeResultado"
-      ></v-data-table>
+      >
+        <template v-slot:item.configuration="{ item }">
+          <v-row style="display: flex; justify-content: center">
+            Configurada
+            <v-simple-checkbox
+              v-model="item.configuration"
+              disabled
+            ></v-simple-checkbox>
+          </v-row>
+        </template>
+      </v-data-table>
     </v-card>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "AlpacasRegistradas",
   data: () => ({
@@ -39,30 +52,43 @@ export default {
         text: 'Familia',
         align: 'start',
         sortable: false,
-        value: 'familia',
+        value: 'nombreFamilia',
       },
-      { text: 'Número de alpacas', value: 'cantAlpacas' },
+      { text: 'Número de alpacas', value: 'cantidadFamilia' },
       { text: 'Característica', value: 'caracteristica' },
-      { text: 'Estado de configuración', value: 'carbs' },
+      { text: 'Estado de configuración', value: 'configuration' },
     ],
+    familias: null,
     familia: [
       {
-        familia: 'Familia 1',
-        cantAlpacas: 14,
+        nombreFamilia: 'Familia 1',
+        cantidadFamilia: 14,
         caracteristica: 'Característica A',
+        configuration: false,
       },
       {
-        familia: 'Familia 2',
-        cantAlpacas: 10,
+        nombreFamilia: 'Familia 2',
+        cantidadFamilia: 10,
         caracteristica: 'Característica B',
+        configuration: true,
       },
     ],
   }),
   methods: {
     imprimeResultado(event){
       console.log('Imprime lo seleecionado', event)
-    }
+    },
+    getFamilias() {
+      axios.get(`http://localhost:8085/api/familiaAnimal/listar?perPage=${3}&page=${1}`).then( response => {
+        console.log(response.data.payload)
+        this.familias = response.data.payload
+      }).catch( e => console.log(e))
+    },
   },
+  mounted() {
+    console.log('Obtiene la información de las listas');
+    this.getFamilias();
+  }
 }
 </script>
 

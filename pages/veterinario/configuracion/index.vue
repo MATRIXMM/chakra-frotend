@@ -3,7 +3,7 @@
     <v-tabs
       v-model="tab"
       background-color="transparent"
-      color="basil"
+      color="#1976D2"
       grow
     >
       <v-tab
@@ -44,6 +44,8 @@ export default {
     tab: null,
   }),
   methods: {
+  },
+  mounted(){
   },
 }
 </script>
