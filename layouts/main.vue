@@ -37,7 +37,7 @@
       <v-toolbar-title><span class="toolbar">{{ title }}</span></v-toolbar-title>
     </v-app-bar>
     <v-main>
-      <v-container>
+      <v-container class="pa-8">
         <Nuxt />
       </v-container>
     </v-main>
