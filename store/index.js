@@ -9,6 +9,7 @@ export const actions = {
 };
 
 export const getters = {
+  getAnimalName: _state => _state.animal.name
 };
 
 export const mutations = {

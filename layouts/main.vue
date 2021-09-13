@@ -6,8 +6,8 @@
       color="secondary"
       outlined
     >
-      <div style="background: white">
-      <v-img height="64" src="/images/alpaca-nombre.png" contain></v-img>
+      <div class="nav-title">
+      {{ getAnimalName }}
       </div>
       <v-list>
         <v-list-item
@@ -51,7 +51,10 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
+  middleware: 'animal',
   data () {
     return {
       fixed: false,
@@ -71,6 +74,11 @@ export default {
       rightDrawer: false,
       title: 'Chakra'
     }
+  },
+  computed: {
+        ...mapGetters([
+      'getAnimalName',
+    ])
   }
 }
 </script>
@@ -80,5 +88,13 @@ export default {
   /* font-family: 'Montserrat'; */
   font-weight: bold;
   font-size: 2.5rem;
+}
+.nav-title{
+  font-family: "Lobster";
+  background: white;
+  font-size: 2.5rem;
+  padding: 2px;
+  text-align: center;
+  text-transform: capitalize;
 }
 </style>
