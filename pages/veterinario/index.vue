@@ -1,20 +1,19 @@
 <template>
   <div>
-    <Alimentacion />
-    <Pastoreo />
+    <CuidadoSanitario />
+
   </div>
 </template>
 
 <script>
 
-import Pastoreo from "@/components/veterinario/configuracion/Pastoreo";
-import Alimentacion from "@/components/veterinario/configuracion/Alimentacion";
+import CuidadoSanitario from "@/components/veterinario/configuracion/CuidadoSanitario";
+
 
 export default {
   name: "index",
   components: {
-    Pastoreo: Pastoreo,
-    Alimentacion: Alimentacion,
+    CuidadoSanitario: CuidadoSanitario,
   },
   data: () => ({
   }),
