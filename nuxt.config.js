@@ -18,7 +18,11 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Lobster&display=swap'
+      }
     ]
   },
 
@@ -51,7 +55,7 @@ export default {
         light: {
           primary: "#1ECD96",
           accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
+          secondary: "#78E1C0",
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,

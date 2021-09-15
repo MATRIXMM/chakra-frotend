@@ -2,7 +2,7 @@
   <v-row no-gutters>
     <v-col>
       <v-img
-        src="/images/background.png"
+        src="https://c.wallhere.com/photos/f9/c2/house_lake_meadows_autumn_trees_fog-783793.jpg!d"
         gradient="to top left, rgba(0,0,0,.33), rgba(57, 57, 57, 0.3)"
         height="100vh"
       >
@@ -82,6 +82,7 @@ export default {
     login() {
       this.$refs.form.validate();
       const payload = { email: this.email, password: this.password };
+      this.$router.push('/welcome')
       // if (this.valid) {
       //   this.loginState({ payload });
       // }

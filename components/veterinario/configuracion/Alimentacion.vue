@@ -116,7 +116,7 @@
             </v-btn>
           </v-row>
           <v-card height="70" style=";margin: 7px">
-            <v-chip v-for="(horario,index) in horariosAlimentacion" style="margin: 5px; background: #DEFFA1">
+            <v-chip v-for="(horario,index) in horariosAlimentacion" :key="index" style="margin: 5px; background: #DEFFA1">
               <h3>{{horario}}</h3>
               <template>
                 <v-icon @click="eliminarHorario(index)">{{icons.mdiCloseCircle}}</v-icon>

@@ -119,7 +119,7 @@
           <v-col md="12">
             <v-card style=";margin: 7px">
               <div style="margin: 1px; padding: 10px">
-                <v-card v-for="(horario,index) in horariosPastoreo" style="margin: 5px; background: #DEFFA1; padding: 10px; display: inline-block">
+                <v-card v-for="(horario,index) in horariosPastoreo" :key="index" style="margin: 5px; background: #DEFFA1; padding: 10px; display: inline-block">
                   <template>
                     <v-row style="margin: 1px; display: flex; justify-content: space-between">
                       <h3>
