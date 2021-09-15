@@ -22,17 +22,22 @@
       <v-data-table
         v-if="familias"
         :headers="headers"
-        :items="familia"
+        :items="familias"
         :search="search"
-        @click:row="imprimeResultado"
+        @click:row="accederDetalleRow"
       >
         <template v-slot:item.configuration="{ item }">
-          <v-row style="display: flex; justify-content: center">
+          <v-row v-if="item.estadoAlimentacion && item.estadoPastoreo && item.estadoEventoSanitario" style="display: flex; align-items: center">
             Configurada
-            <v-simple-checkbox
-              v-model="item.configuration"
-              disabled
-            ></v-simple-checkbox>
+            <v-icon color="primary">
+              {{icons.mdiCheckboxMarkedCircle}}
+            </v-icon>
+          </v-row>
+          <v-row v-else style="display: flex; align-items: center">
+            Pendiente
+            <v-icon color="#FFDA2D">
+              {{icons.mdiAlert}}
+            </v-icon>
           </v-row>
         </template>
       </v-data-table>
@@ -42,11 +47,16 @@
 
 <script>
 import axios from 'axios';
+import { mdiCheckboxMarkedCircle, mdiAlert  } from '@mdi/js';
 
 export default {
   name: "AlpacasRegistradas",
   data: () => ({
     search: '',
+    icons: {
+      mdiCheckboxMarkedCircle,
+      mdiAlert
+    },
     headers: [
       {
         text: 'Familia',
@@ -75,8 +85,9 @@ export default {
     ],
   }),
   methods: {
-    imprimeResultado(event){
-      console.log('Imprime lo seleecionado', event)
+    accederDetalleRow(event){
+      console.log('Imprime lo seleecionado', event);
+      this.$router.push(`configuracion/registradas/${event.idFamilia}`);
     },
     getFamilias() {
       axios.get(`http://localhost:8085/api/familiaAnimal/listar?perPage=${3}&page=${1}`).then( response => {

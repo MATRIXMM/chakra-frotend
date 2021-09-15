@@ -134,6 +134,9 @@ import { mdiCloseCircle } from '@mdi/js';
 
 export default {
   name: "Alimentacion",
+  props: {
+    idAlimentacion: String,
+  },
   data: () => ({
     icons: {
       mdiCloseCircle
@@ -167,6 +170,9 @@ export default {
       this.horariosAlimentacion.splice(index,1);
     },
   },
+  mounted() {
+    console.log('El valor del id del props es: ', this.idAlimentacion)
+  }
 }
 </script>
 
