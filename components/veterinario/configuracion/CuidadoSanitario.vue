@@ -23,33 +23,21 @@
       <v-card-title
         style="display: flex; justify-content: right;background: #FFEAB5"
       >
-        <div>
-          <v-btn
-            v-if="!registrado"
-            rounded
-            outlined
-            color="primary"
-            style="background: white"
-            :disabled="disabled"
-          >
-            Cancelar
-          </v-btn>
-          <v-btn
-            v-if="!registrado"
-            rounded
-            color="primary"
-            @click="infoRegistrada"
-          >
-            Guardar
-          </v-btn>
-          <v-btn
-            v-if="registrado"
-            rounded
-            color="primary"
-          >
-            Actualizar
-          </v-btn>
-        </div>
+        <v-btn
+          v-if="!registrado"
+          rounded
+          color="primary"
+          @click="infoRegistrada"
+        >
+          Guardar
+        </v-btn>
+        <v-btn
+          v-if="registrado"
+          rounded
+          color="primary"
+        >
+          Actualizar
+        </v-btn>
       </v-card-title>
       <v-card-text style="display: flex; justify-content: center; background: #FFEAB5">
         <div>
@@ -108,29 +96,21 @@
               + Agregar
             </v-btn>
           </v-row>
-          <v-col md="12">
-            <v-card style=";margin: 7px">
-              <div style="margin: 1px; padding: 10px">
-                <v-card v-for="(evento,index) in eventos" :key="index" style="margin: 5px; background: #DEFFA1; padding: 10px; display: inline-block">
-                  <template>
-                    <v-row style="margin: 1px; display: flex; justify-content: space-between">
-                      <v-col md="8">
-                        <h3>
-                          {{evento.nombre}}
-                        </h3>
-                      </v-col>
-                      <v-col md="4">
-                        <v-icon @click="eliminarEvento(index)">{{icons.mdiCloseCircle}}</v-icon>
-                      </v-col>
-                    </v-row>
-                    <v-row style="margin: 1px;">
-                      Fecha: {{evento.dia}}
-                    </v-row>
-                  </template>
-                </v-card>
-              </div>
+          <div style="margin: 1px; padding: 10px; display: table-cell">
+            <v-card rounded v-for="(evento,index) in eventos" :key="index" style="margin: 5px; background: #DEFFA1; padding: 10px; display: inline-block">
+              <v-card-title style="display: flex; justify-content: right; padding: 2px">
+                <v-icon @click="eliminarEvento(index)">{{icons.mdiCloseCircle}}</v-icon>
+              </v-card-title>
+              <v-card-text style="padding: 5px">
+                <h3>
+                  {{evento.nombre}}
+                </h3>
+              </v-card-text>
+              <v-card-actions style="padding: 5px">
+                Fecha: {{evento.dia}}
+              </v-card-actions>
             </v-card>
-          </v-col>
+          </div>
         </div>
       </v-card-text>
     </v-card>
