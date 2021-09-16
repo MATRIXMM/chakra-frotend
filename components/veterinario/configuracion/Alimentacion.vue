@@ -32,7 +32,7 @@
             v-if="!registrado"
             rounded
             color="primary"
-            @click="presionarInfo"
+            @click="registrarAlimentacion"
           >
             Guardar
           </v-btn>
@@ -52,7 +52,7 @@
             <v-col md="4" no-gutters>
               <v-text-field
                 label="Alimento"
-                v-model="info"
+                v-model="alimento"
                 solo
                 hide-details
                 style="background: white"
@@ -64,7 +64,7 @@
             <v-col md="4" no-gutters>
               <v-text-field
                 label="Cantidad de alimento"
-                v-model="info1"
+                v-model="cantidadAlimento"
                 solo
                 hide-details
                 style="background: white"
@@ -116,7 +116,7 @@
             </v-btn>
           </v-row>
           <v-card height="70" style=";margin: 7px">
-            <v-chip v-for="(horario,index) in horariosAlimentacion" :key="index" style="margin: 5px; background: #DEFFA1">
+            <v-chip v-for="(horario,index) in horasAlimentacion" :key="index" style="margin: 5px; background: #DEFFA1">
               <h3>{{horario}}</h3>
               <template>
                 <v-icon @click="eliminarHorario(index)">{{icons.mdiCloseCircle}}</v-icon>
@@ -142,24 +142,26 @@ export default {
       mdiCloseCircle
     },
     registrado: false,
-    info: 'aa',
-    info1: '',
+    alimento: '',
+    cantidadAlimento: '',
     valor: 'valor registrado',
     picker: null,
     time: null,
     menu2: false,
     disabled: false,
-    horariosAlimentacion: [],
+    horasAlimentacion: [],
   }),
   methods: {
-    presionarInfo(){
-      console.log('Este es un mensaje', this.info);
-      console.log('Este es otro mensaje', this.info1);
+    registrarAlimentacion(){
+      console.log(this.$route.params.id)
+      console.log('Este es un mensaje', this.alimento);
+      console.log('Este es otro mensaje', this.cantidadAlimento);
+      console.log('Este es otro mensaje', this.horasAlimentacion);
     },
     agregarHorario() {
       if (this.time !== null){
         console.log('Nuevo horario', this.time);
-        this.horariosAlimentacion.push(this.time);
+        this.horasAlimentacion.push(this.time);
         this.time = null;
       }else{
         alert('Agregue un horario disponible');
@@ -167,7 +169,7 @@ export default {
     },
     eliminarHorario(index){
       console.log('Eliminar el horario', index);
-      this.horariosAlimentacion.splice(index,1);
+      this.horasAlimentacion.splice(index,1);
     },
   },
   mounted() {

@@ -108,13 +108,17 @@
                 <v-card v-for="(evento,index) in eventos" :key="index" style="margin: 5px; background: #DEFFA1; padding: 10px; display: inline-block">
                   <template>
                     <v-row style="margin: 1px; display: flex; justify-content: space-between">
-                      <h3>
-                        {{evento.nombre}}
-                      </h3>
-                      <v-icon @click="eliminarEvento(index)">{{icons.mdiCloseCircle}}</v-icon>
+                      <v-col md="8">
+                        <h3>
+                          {{evento.nombre}}
+                        </h3>
+                      </v-col>
+                      <v-col md="4">
+                        <v-icon @click="eliminarEvento(index)">{{icons.mdiCloseCircle}}</v-icon>
+                      </v-col>
                     </v-row>
                     <v-row style="margin: 1px;">
-                      {{evento.dia}}
+                      Fecha: {{evento.dia}}
                     </v-row>
                   </template>
                 </v-card>
@@ -147,7 +151,7 @@ export default {
     time: null,
     menu2: false,
     disabled: false,
-    eventos: [{nombre: 'hola', dia:'2021-09-15'},{nombre: 'hola2', dia:'2021-09-13'}],
+    eventos: [],
   }),
   methods: {
     agregarEvento() {
