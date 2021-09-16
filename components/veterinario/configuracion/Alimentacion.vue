@@ -27,16 +27,6 @@
           <v-btn
             v-if="!registrado"
             rounded
-            outlined
-            color="primary"
-            style="background: white"
-            :disabled="disabled"
-          >
-            Cancelar
-          </v-btn>
-          <v-btn
-            v-if="!registrado"
-            rounded
             color="primary"
             @click="registrarAlimentacion"
           >
@@ -116,22 +106,28 @@
             </v-col>
           </v-row>
           <v-row style="display: flex; justify-content: right; margin: 1px">
-            <v-btn
-              color="primary"
-              rounded
-              @click="agregarHorario"
-            >
-              + Agregar
-            </v-btn>
+            <v-col md="8">
+            </v-col>
+            <v-col md="4">
+              <v-btn
+                color="primary"
+                rounded
+                outlined
+                style="background: white"
+                @click="agregarHorario"
+              >
+                + Agregar
+              </v-btn>
+            </v-col>
           </v-row>
-          <v-card height="70" style=";margin: 7px">
-            <v-chip v-for="(horario,index) in horasAlimentacion" :key="index" style="margin: 5px; background: #DEFFA1">
+          <v-card-actions>
+            <v-chip dense v-for="(horario,index) in horasAlimentacion" :key="index" style="margin: 5px; background: #DEFFA1">
               <h3>{{horario}}</h3>
               <template>
-                <v-icon @click="eliminarHorario(index)">{{icons.mdiCloseCircle}}</v-icon>
+                <v-icon style="margin-left: 5px" @click="eliminarHorario(index)">{{icons.mdiCloseCircle}}</v-icon>
               </template>
             </v-chip>
-          </v-card>
+          </v-card-actions>
         </div>
       </v-card-text>
     </v-card>
