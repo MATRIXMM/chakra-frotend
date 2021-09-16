@@ -108,7 +108,7 @@
           <v-row style="display: flex; justify-content: right; margin: 1px">
             <v-col md="8">
             </v-col>
-            <v-col md="4">
+            <v-col md="4" style="justify-content: right; display: flex">
               <v-btn
                 color="primary"
                 rounded
