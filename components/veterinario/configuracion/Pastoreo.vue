@@ -7,6 +7,12 @@
     >
       Pastoreo
     </v-chip>
+    <v-icon v-if="registrado" color="primary">
+      {{icons.mdiCheckboxMarkedCircle}}
+    </v-icon>
+    <v-icon v-else color="#FFDA2D">
+      {{icons.mdiAlert}}
+    </v-icon>
     <h6 style="margin-top: 20px">
       Por favor, configure el horario de pastoreo para la familia:
     </h6>
@@ -145,13 +151,15 @@
 </template>
 
 <script>
-import { mdiCloseCircle } from '@mdi/js';
+import { mdiCloseCircle, mdiCheckboxMarkedCircle, mdiAlert } from '@mdi/js';
 
 export default {
   name: "Pastoreo",
   data: () => ({
     icons: {
-      mdiCloseCircle
+      mdiCloseCircle,
+      mdiCheckboxMarkedCircle,
+      mdiAlert
     },
     diaSelecto: '',
     registrado: false,

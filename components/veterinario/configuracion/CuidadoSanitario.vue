@@ -7,6 +7,12 @@
     >
       Cuidado Sanitario
     </v-chip>
+    <v-icon v-if="registrado" color="primary">
+      {{icons.mdiCheckboxMarkedCircle}}
+    </v-icon>
+    <v-icon v-else color="#FFDA2D">
+      {{icons.mdiAlert}}
+    </v-icon>
     <h5 style="margin-top: 20px">
       Por favor, agregue los cuidados sanitarios para la familia:
     </h5>
@@ -132,13 +138,15 @@
 </template>
 
 <script>
-import { mdiCloseCircle } from '@mdi/js';
+import {mdiAlert, mdiCheckboxMarkedCircle, mdiCloseCircle} from '@mdi/js';
 
 export default {
   name: "CuidadoSanitario",
   data: () => ({
     icons: {
-      mdiCloseCircle
+      mdiCloseCircle,
+      mdiCheckboxMarkedCircle,
+      mdiAlert
     },
     date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
     nowDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),

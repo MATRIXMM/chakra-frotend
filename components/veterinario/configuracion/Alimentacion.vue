@@ -7,6 +7,12 @@
     >
       Alimentación
     </v-chip>
+    <v-icon v-if="registrado" color="primary">
+      {{icons.mdiCheckboxMarkedCircle}}
+    </v-icon>
+    <v-icon v-else color="#FFDA2D">
+      {{icons.mdiAlert}}
+    </v-icon>
     <h6 style="margin-top: 20px">
       Por favor, agregue los horarios de alimentación para la familia:
     </h6>
@@ -56,6 +62,7 @@
                 solo
                 hide-details
                 style="background: white"
+                :disabled="registrado"
               />
             </v-col>
           </v-row>
@@ -68,6 +75,7 @@
                 solo
                 hide-details
                 style="background: white"
+                :disabled="registrado"
               />
             </v-col>
           </v-row>
@@ -95,6 +103,7 @@
                     v-on="on"
                     hide-details
                     style="background: white"
+                    :disabled="registrado"
                   ></v-text-field>
                 </template>
                 <v-time-picker
@@ -130,7 +139,7 @@
 </template>
 
 <script>
-import { mdiCloseCircle } from '@mdi/js';
+import { mdiCloseCircle, mdiCheckboxMarkedCircle, mdiAlert } from '@mdi/js';
 
 export default {
   name: "Alimentacion",
@@ -139,7 +148,9 @@ export default {
   },
   data: () => ({
     icons: {
-      mdiCloseCircle
+      mdiCloseCircle,
+      mdiCheckboxMarkedCircle,
+      mdiAlert
     },
     registrado: false,
     alimento: '',
