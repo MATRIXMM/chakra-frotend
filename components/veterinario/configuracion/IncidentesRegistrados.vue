@@ -23,6 +23,7 @@
         :headers="headers"
         :items="incidentes"
         :search="search"
+        @click:row="accederDetalleRow"
       >
       </v-data-table>
     </v-card>
@@ -52,9 +53,21 @@ export default {
       { text: 'Detalle de observación', value: 'detalleObservacion' },
       { text: 'Estado de configuración', value: 'configuration' },
     ],
-    incidentes: [],
+    incidentes: [
+      {
+        idAnimal: 1,
+        nombreFamilia: 'Familia1',
+        nombreAnimal: 'Pedro',
+        fechaRegistro: '2021/06/14',
+        detalleObservacion: 'Este incidente presenta esta observacion',
+        configuration: false,
+      }
+    ],
   }),
   methods: {
+    accederDetalleRow(event) {
+      this.$router.push(`configuracion/incidentes/${event.idAnimal}`);
+    },
   },
 }
 </script>
