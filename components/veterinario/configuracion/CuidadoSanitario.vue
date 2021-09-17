@@ -47,8 +47,8 @@
               <v-text-field
                 label="Nombre de evento"
                 v-model="nombreEvento"
-                solo
                 hide-details
+                solo
                 style="background: white"
               />
             </v-col>
@@ -68,12 +68,13 @@
                   <v-text-field
                     v-model="date"
                     label="Seleccione una fecha"
-                    prepend-icon="mdi-calendar"
+                    prepend-inner-icon="mdi-calendar"
                     readonly
                     v-bind="attrs"
                     v-on="on"
                     style="background: white"
                     hide-details
+                    solo
                     locale="es-PE"
                   ></v-text-field>
                 </template>
@@ -88,25 +89,30 @@
             </v-col>
           </v-row>
           <v-row style="display: flex; justify-content: right; margin: 1px">
-            <v-btn
-              color="primary"
-              rounded
-              @click="agregarEvento"
-            >
-              + Agregar
-            </v-btn>
+            <v-col md="6"></v-col>
+            <v-col md="6" style="justify-content: right; display: flex">
+              <v-btn
+                color="primary"
+                rounded
+                outlined
+                style="background: white"
+                @click="agregarEvento"
+              >
+                + Agregar
+              </v-btn>
+            </v-col>
           </v-row>
-          <div style="margin: 1px; padding: 10px; display: table-cell">
-            <v-card rounded v-for="(evento,index) in eventos" :key="index" style="margin: 5px; background: #DEFFA1; padding: 10px; display: inline-block">
+          <div style="margin: 1px; padding: 10px">
+            <v-card rounded v-for="(evento,index) in eventos" :key="index" style="margin: 5px; background: #DEFFA1; padding: 10px">
               <v-card-title style="display: flex; justify-content: right; padding: 2px">
                 <v-icon @click="eliminarEvento(index)">{{icons.mdiCloseCircle}}</v-icon>
               </v-card-title>
-              <v-card-text style="padding: 5px">
+              <v-card-text style="padding: 5px; display: flex; justify-content: center">
                 <h3>
                   {{evento.nombre}}
                 </h3>
               </v-card-text>
-              <v-card-actions style="padding: 5px">
+              <v-card-actions style="padding: 5px; display: flex; justify-content: center">
                 Fecha: {{evento.dia}}
               </v-card-actions>
             </v-card>
@@ -153,7 +159,7 @@ export default {
     },
     eliminarEvento(index){
       console.log('Eliminar el horario', index);
-      this.horariosPastoreo.splice(index,1);
+      this.eventos.splice(index,1);
     },
     infoRegistrada() {
       console.log('Información del día', this.date);

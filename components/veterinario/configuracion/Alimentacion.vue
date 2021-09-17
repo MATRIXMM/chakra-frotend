@@ -87,11 +87,12 @@
                   <v-text-field
                     v-model="time"
                     label="Horario"
-                    prepend-icon="mdi-clock-time-four-outline"
+                    prepend-inner-icon="mdi-clock-time-four-outline"
                     readonly
                     v-bind="attrs"
                     v-on="on"
                     hide-details
+                    solo
                     style="background: white"
                     :disabled="registrado"
                   ></v-text-field>
