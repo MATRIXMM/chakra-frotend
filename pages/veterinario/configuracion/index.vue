@@ -20,10 +20,10 @@
         :key="n"
       >
         <div v-if="n === 1" style="padding: 15px">
-          <AlpacasRegistradas />
+          <FamiliasRegistradas />
         </div>
         <div v-if="n === 2" style="padding: 15px">
-          <h1>esto es del segundo</h1>
+          <IncidentesRegistrados />
         </div>
       </v-tab-item>
     </v-tabs-items>
@@ -32,11 +32,12 @@
 
 <script>
 
-import AlpacasRegistradas from "@/components/veterinario/configuracion/AlpacasRegistradas";
-
+import FamiliasRegistradas from "@/components/veterinario/configuracion/FamiliasRegistradas";
+import IncidentesRegistrados from "@/components/veterinario/configuracion/IncidentesRegistrados";
 export default {
   components: {
-    AlpacasRegistradas: AlpacasRegistradas,
+    FamiliasRegistradas: FamiliasRegistradas,
+    IncidentesRegistrados: IncidentesRegistrados,
   },
   name: "index",
   data: () => ({
