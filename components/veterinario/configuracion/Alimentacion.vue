@@ -36,6 +36,7 @@
             v-if="registrado"
             rounded
             color="primary"
+            @click="actualizarAlimentacion"
           >
             Actualizar
           </v-btn>
@@ -116,6 +117,7 @@
                 outlined
                 style="background: white"
                 @click="agregarHorario"
+                :disabled="registrado"
               >
                 + Agregar
               </v-btn>
@@ -125,7 +127,7 @@
             <v-chip dense v-for="(horario,index) in horasAlimentacion" :key="index" style="margin: 5px; background: #DEFFA1">
               <h3>{{horario}}</h3>
               <template>
-                <v-icon style="margin-left: 5px" @click="eliminarHorario(index)">{{icons.mdiCloseCircle}}</v-icon>
+                <v-icon :disabled="registrado" style="margin-left: 5px" @click="eliminarHorario(index)">{{icons.mdiCloseCircle}}</v-icon>
               </template>
             </v-chip>
           </v-card-actions>
@@ -158,6 +160,7 @@ export default {
     menu2: false,
     disabled: false,
     horasAlimentacion: [],
+    actualizar: false,
   }),
   methods: {
     registrarAlimentacion(){
@@ -165,6 +168,13 @@ export default {
       console.log('Este es un mensaje', this.alimento);
       console.log('Este es otro mensaje', this.cantidadAlimento);
       console.log('Este es otro mensaje', this.horasAlimentacion);
+      if (this.actualizar) {
+        console.log("este es un registro de actualizacion");
+        this.actualizar = false;
+      } else {
+        console.log("Este es un registro nuevo");
+        this.registrado = true;
+      }
     },
     agregarHorario() {
       if (this.time !== null){
@@ -179,9 +189,22 @@ export default {
       console.log('Eliminar el horario', index);
       this.horasAlimentacion.splice(index,1);
     },
+    actualizarAlimentacion(){
+      this.registrado = !this.registrado;
+      this.actualizar = true;
+    }
   },
   mounted() {
-    console.log('El valor del id del props es: ', this.idAlimentacion)
+    console.log('El valor del id del props es: ', this.idAlimentacion);
+    let data = null;
+    if (data === null) {
+      console.log('Es la primera vez que se debe registrar');
+    } else {
+      console.log('Aqui ya se encuentra registrada la información');
+      this.alimento = 'Alimento A';
+      this.cantidadAlimento = '12';
+      this.horasAlimentacion = ['12:30', '13:20', '15:22'];
+    }
   }
 }
 </script>
