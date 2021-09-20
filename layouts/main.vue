@@ -66,7 +66,7 @@ export default {
         },
         {
           title: 'Configuracion',
-          icon: 'mdi-chart-bubble',
+          icon: 'mdi-cog',
           to: '/veterinario/configuracion'
         },
         {
