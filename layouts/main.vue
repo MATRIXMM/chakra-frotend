@@ -65,9 +65,24 @@ export default {
           to: '/'
         },
         {
+          title: 'Configuracion',
           icon: 'mdi-chart-bubble',
-          title: 'Configuración',
-          to: '/admin/configuracion'
+          to: '/veterinario/configuracion'
+        },
+        {
+          title: 'Incidencia',
+          icon: 'mdi-calendar',
+          to: '/veterinario/incidencia'
+        },
+        {
+          title: 'Seguimiento',
+          icon: 'mdi-calendar',
+          to: '/veterinario/seguimiento'
+        },
+        {
+          title: 'Monitoreo de Incidentes',
+          icon: 'mdi-calendar',
+          to: '/veterinario/monitoreo'
         }
       ],
       right: true,

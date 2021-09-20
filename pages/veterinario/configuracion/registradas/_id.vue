@@ -16,6 +16,7 @@ import CuidadoSanitario from "@/components/veterinario/configuracion/CuidadoSani
 
 export default {
   name: "DetalleRegistradas",
+  layout: "main",
   components: {
     Pastoreo: Pastoreo,
     Alimentacion: Alimentacion,

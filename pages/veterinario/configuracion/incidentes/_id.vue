@@ -31,6 +31,7 @@ import Resultado from "@/components/veterinario/configuracion/incidencias/Result
 
 export default {
   name: "DetalleIncidentes",
+  layout: "main",
   components: {
     Alimentacion: Alimentacion,
     CuidadoSanitario: CuidadoSanitario,

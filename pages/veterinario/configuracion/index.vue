@@ -40,6 +40,7 @@ export default {
     IncidentesRegistrados: IncidentesRegistrados,
   },
   name: "index",
+  layout: "main",
   data: () => ({
     nameTabs: ['FAMILIAS DE ALPACAS REGISTRADAS', 'INCIDENTES DE ALPACAS REGISTRADAS'],
     tab: null,
