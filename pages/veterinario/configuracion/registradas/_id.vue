@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="margin: 10px; margin-bottom: 30px">
+    <div v-if="registrado" style="margin: 10px; margin-bottom: 30px">
       <p>Periodo de configuración disponible por 6 meses</p>
       <v-progress-linear
         v-model="porcentaje"
@@ -23,7 +23,7 @@
       </v-row>
     </div>
     <v-divider style="margin-top: 30px; margin-bottom: 30px"/>
-    <Alimentacion :id-incidente="this.$route.params.id" />
+    <Alimentacion :id-incidente="this.$route.params.id" @config="config" />
     <v-divider style="margin-top: 30px; margin-bottom: 30px"/>
     <Pastoreo :id-incidente="this.$route.params.id" />
     <v-divider style="margin-top: 30px; margin-bottom: 30px"/>
@@ -47,8 +47,12 @@ export default {
   },
   data: () => ({
     porcentaje: 33,
+    registrado: false,
   }),
   methods: {
+    config({ value }){
+      this.registrado = value;
+    }
   },
   mounted() {
     console.log('imprime el id de la pagina', this.$route.params.id);

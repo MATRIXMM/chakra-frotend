@@ -200,6 +200,7 @@ export default {
       this.cantidadAlimento = '12';
       this.horasAlimentacion = ['12:30', '13:20', '15:22'];
       this.registrado = true;
+      this.$emit('config', {value: this.registrado})
     }
   }
 }
