@@ -44,7 +44,6 @@ export default {
   name: "index",
   layout: "main",
   data: () => ({
-    //nameTabs: ['familias DE ALPACAS REGISTRADAS', 'INCIDENTES DE ALPACAS REGISTRADAS'],
     tab: null,
     nameTabs: [],
   }),

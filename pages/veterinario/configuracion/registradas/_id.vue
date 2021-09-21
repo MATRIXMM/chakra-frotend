@@ -1,5 +1,28 @@
 <template>
   <div>
+    <div style="margin: 10px; margin-bottom: 30px">
+      <p>Periodo de configuración disponible por 6 meses</p>
+      <v-progress-linear
+        v-model="porcentaje"
+        height="25"
+        style="margin-bottom: 30px"
+      >
+        <strong>{{ Math.ceil(porcentaje) }}%</strong>
+      </v-progress-linear>
+      <v-row>
+        <v-col md="10">
+          <strong>
+            Enero
+          </strong>
+        </v-col>
+        <v-col md="2" style="justify-content: right; display: flex">
+          <strong>
+            Junio
+          </strong>
+        </v-col>
+      </v-row>
+    </div>
+    <v-divider style="margin-top: 30px; margin-bottom: 30px"/>
     <Alimentacion :idAlimentacion="this.$route.params.id"/>
     <v-divider style="margin-top: 30px; margin-bottom: 30px"/>
     <Pastoreo />
@@ -23,6 +46,7 @@ export default {
     CuidadoSanitario: CuidadoSanitario,
   },
   data: () => ({
+    porcentaje: 33,
   }),
   methods: {
   },

@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 20px">
     <h2>
-      Configuracion de reglas de crianza para alpacas con incidentes
+      Configuracion de reglas de crianza para {{this.nombreAnimal}} con incidentes
     </h2>
     <VDivider />
     <h5>
@@ -35,6 +35,9 @@ import { mdiCheckboxMarkedCircle, mdiAlert  } from '@mdi/js';
 
 export default {
   name: "IncidentesRegistrados",
+  props: {
+    nombreAnimal: String,
+  },
   data: () => ({
     search: '',
     icons: {
