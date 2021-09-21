@@ -46,7 +46,7 @@ export default {
     CuidadoSanitario: CuidadoSanitario,
   },
   data: () => ({
-    porcentaje: 33,
+    porcentaje: 1,
     registrado: false,
   }),
   methods: {

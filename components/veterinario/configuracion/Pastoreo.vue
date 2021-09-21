@@ -1,5 +1,6 @@
 <template>
   <div style="margin: 10px">
+    <Confirmacion :key="dialogConfirmacionKey" v-model="dialogConfirmacion" :funcion="infoRegistrada" message="¿Está seguro que desea configurar el pastoreo de este modo?" />
     <v-chip
       color= #1976D2
       text-color="black"
@@ -27,7 +28,7 @@
           v-if="!registrado"
           rounded
           color="primary"
-          @click="infoRegistrada"
+          @click="dialogConfirmacion = true"
           :disabled="registrado"
         >
           Guardar
@@ -148,9 +149,13 @@
 
 <script>
 import { mdiCloseCircle, mdiCheckboxMarkedCircle, mdiAlert } from '@mdi/js';
+import Confirmacion from "@/components/confirmacion/Confirmacion";
 
 export default {
   name: "Pastoreo",
+  components: {
+    Confirmacion: Confirmacion,
+  },
   props: {
     idIncidente: String,
   },
@@ -178,6 +183,8 @@ export default {
       'Domingo',
     ],
     actualizar: false,
+    dialogConfirmacionKey: 1,
+    dialogConfirmacion: false,
   }),
   methods: {
     agregarHorario() {
@@ -206,6 +213,7 @@ export default {
         console.log("Este es un registro nuevo");
         this.registrado = true;
       }
+      this.dialogConfirmacion = false;
     },
     actualizarPastoreo(){
       this.registrado = !this.registrado;

@@ -1,5 +1,6 @@
 <template>
   <div style="margin: 10px">
+    <Confirmacion :key="dialogConfirmacionKey" v-model="dialogConfirmacion" :funcion="infoRegistrada" message="¿Está seguro que desea configurar el cuidado sanitario de este modo?" />
     <v-chip
       color= #1976D2
       text-color="black"
@@ -27,7 +28,7 @@
           v-if="!registrado"
           rounded
           color="primary"
-          @click="infoRegistrada"
+          @click="dialogConfirmacion = true"
         >
           Guardar
         </v-btn>
@@ -129,9 +130,13 @@
 
 <script>
 import {mdiAlert, mdiCheckboxMarkedCircle, mdiCloseCircle} from '@mdi/js';
+import Confirmacion from "@/components/confirmacion/Confirmacion";
 
 export default {
   name: "CuidadoSanitario",
+  components: {
+    Confirmacion: Confirmacion,
+  },
   props: {
     idIncidente: String,
   },
@@ -154,6 +159,8 @@ export default {
     disabled: false,
     eventos: [],
     actualizar: false,
+    dialogConfirmacionKey: 1,
+    dialogConfirmacion: false,
   }),
   methods: {
     agregarEvento() {
@@ -177,6 +184,7 @@ export default {
         console.log("Este es un registro nuevo");
         this.registrado = true;
       }
+      this.dialogConfirmacion = false;
     },
     actualizarCuidadoSanitario(){
       this.registrado = !this.registrado;
