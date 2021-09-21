@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 20px">
     <h2>
-      Configuracion de reglas de crianza para alpacas registradas
+      Configuracion de reglas de crianza para {{this.nombreAnimal}} registradas
     </h2>
     <VDivider />
     <h5>
@@ -50,7 +50,10 @@ import axios from 'axios';
 import { mdiCheckboxMarkedCircle, mdiAlert  } from '@mdi/js';
 
 export default {
-  name: "AlpacasRegistradas",
+  name: "FamiliasRegistradas",
+  props: {
+    nombreAnimal: String,
+  },
   data: () => ({
     search: '',
     icons: {

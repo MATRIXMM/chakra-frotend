@@ -20,10 +20,10 @@
         :key="n"
       >
         <div v-if="n === 1" style="padding: 15px">
-          <FamiliasRegistradas />
+          <FamiliasRegistradas :nombreAnimal="animal.name" />
         </div>
         <div v-if="n === 2" style="padding: 15px">
-          <IncidentesRegistrados />
+          <IncidentesRegistrados :nombreAnimal="animal.name" />
         </div>
       </v-tab-item>
     </v-tabs-items>
@@ -44,16 +44,24 @@ export default {
   name: "index",
   layout: "main",
   data: () => ({
-    nameTabs: ['FAMILIAS DE ALPACAS REGISTRADAS', 'INCIDENTES DE ALPACAS REGISTRADAS'],
+    //nameTabs: ['familias DE ALPACAS REGISTRADAS', 'INCIDENTES DE ALPACAS REGISTRADAS'],
     tab: null,
+    nameTabs: [],
   }),
   computed: {
     ...mapState({
       animal: state => state.animal,
     }),
   },
+  methods: {
+    getNameTabs(nombreAnimal) {
+      this.nameTabs.push(`familias de ${nombreAnimal} registradas`);
+      this.nameTabs.push(`incidentes de ${nombreAnimal} registradas`);
+    },
+  },
   mounted() {
     console.log("El animal seleccionado es", this.animal.name);
+    this.getNameTabs(this.animal.name);
   }
 }
 </script>
