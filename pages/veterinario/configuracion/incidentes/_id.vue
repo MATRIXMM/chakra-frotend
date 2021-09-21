@@ -40,11 +40,11 @@
       </v-card>
     </div>
     <v-divider style="margin-top: 30px; margin-bottom: 30px"/>
-    <Alimentacion @getDays="getDays"/>
+    <Alimentacion @getDays="getDays" :id-incidente="this.$route.params.id" />
     <v-divider style="margin-top: 30px; margin-bottom: 30px"/>
-    <CuidadoSanitario />
+    <CuidadoSanitario :id-incidente="this.$route.params.id" />
     <v-divider style="margin-top: 30px; margin-bottom: 30px"/>
-    <Resultado />
+    <Resultado :id-incidente="this.$route.params.id" />
   </div>
 </template>
 

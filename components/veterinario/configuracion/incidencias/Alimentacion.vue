@@ -140,7 +140,7 @@
             <v-chip dense v-for="(horario,index) in horasAlimentacion" :key="index" style="margin: 5px; background: #DEFFA1">
               <h3>{{horario}}</h3>
               <template>
-                <v-icon style="margin-left: 5px" @click="eliminarHorario(index)">{{icons.mdiCloseCircle}}</v-icon>
+                <v-icon style="margin-left: 5px" :disabled="registrado" @click="eliminarHorario(index)">{{icons.mdiCloseCircle}}</v-icon>
               </template>
             </v-chip>
           </v-card-actions>
@@ -156,7 +156,7 @@ import { mdiCloseCircle, mdiCheckboxMarkedCircle, mdiAlert } from '@mdi/js';
 export default {
   name: "Alimentacion",
   props: {
-    idAlimentacion: String,
+    idIncidente: String,
   },
   data: () => ({
     icons: {
@@ -211,16 +211,18 @@ export default {
     }
   },
   mounted() {
-    console.log('El valor del id del props es: ', this.idAlimentacion);
+    console.log('El valor del id del props es: ', this.idIncidente);
     let data = null;
-    if (data === null) {
+    if (this.idIncidente === '2') {
       console.log('Es la primera vez que se debe registrar');
-    } else {
       console.log('Aqui ya se encuentra registrada la información');
       this.alimento = 'Alimento A';
       this.cantidadAlimento = '12';
       this.diasSeguimiento = 15;
       this.horasAlimentacion = ['12:30', '13:20', '15:22'];
+      this.registrado = true;
+      this.$emit('getDays', { diasSeguimiento: this.diasSeguimiento })
+
     }
 
   }

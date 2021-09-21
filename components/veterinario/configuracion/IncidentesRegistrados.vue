@@ -25,6 +25,20 @@
         :search="search"
         @click:row="accederDetalleRow"
       >
+        <template v-slot:item.configuration="{ item }">
+          <v-row v-if="item.configuration" style="display: flex; align-items: center">
+            Configurada
+            <v-icon color="primary">
+              {{icons.mdiCheckboxMarkedCircle}}
+            </v-icon>
+          </v-row>
+          <v-row v-else style="display: flex; align-items: center">
+            Pendiente
+            <v-icon color="#FFDA2D">
+              {{icons.mdiAlert}}
+            </v-icon>
+          </v-row>
+        </template>
       </v-data-table>
     </v-card>
   </div>
@@ -64,6 +78,14 @@ export default {
         fechaRegistro: '2021/06/14',
         detalleObservacion: 'Este incidente presenta esta observacion',
         configuration: false,
+      },
+      {
+        idAnimal: 2,
+        nombreFamilia: 'Familia2',
+        nombreAnimal: 'Perico',
+        fechaRegistro: '2021/06/12',
+        detalleObservacion: 'Este incidente presenta esta observacion 2',
+        configuration: true,
       }
     ],
   }),
