@@ -20,9 +20,9 @@
         <v-spacer></v-spacer>
       </v-card-title>
       <v-data-table
-        v-if="familias"
+        v-if="familia"
         :headers="headers"
-        :items="familias"
+        :items="familia"
         :search="search"
         @click:row="accederDetalleRow"
       >
@@ -74,17 +74,32 @@ export default {
     familias: null,
     familia: [
       {
-        nombreFamilia: 'Familia 1',
-        cantidadFamilia: 14,
-        caracteristica: 'Característica A',
-        configuration: false,
+        "idFamilia": 1,
+        "nombreFamilia": "Familia 1",
+        "cantidadFamilia": 14,
+        "caracteristica": "Caracteristica A",
+        "estadoAlimentacion": true,
+        "estadoPastoreo": true,
+        "estadoEventoSanitario": true
       },
       {
-        nombreFamilia: 'Familia 2',
-        cantidadFamilia: 10,
-        caracteristica: 'Característica B',
-        configuration: true,
+        "idFamilia": 2,
+        "nombreFamilia": "Familia 2",
+        "cantidadFamilia": 10,
+        "caracteristica": "Caracteristica B",
+        "estadoAlimentacion": false,
+        "estadoPastoreo": false,
+        "estadoEventoSanitario": false
       },
+      {
+        "idFamilia": 3,
+        "nombreFamilia": "Familia 3",
+        "cantidadFamilia": 13,
+        "caracteristica": "Caracteristica C",
+        "estadoAlimentacion": false,
+        "estadoPastoreo": false,
+        "estadoEventoSanitario": false
+      }
     ],
   }),
   methods: {
@@ -101,7 +116,7 @@ export default {
   },
   mounted() {
     console.log('Obtiene la información de las listas');
-    this.getFamilias();
+    //this.getFamilias();
   }
 }
 </script>

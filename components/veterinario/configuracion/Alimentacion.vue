@@ -175,6 +175,7 @@ export default {
         console.log("Este es un registro nuevo");
         this.registrado = true;
       }
+      this.$emit('config', {value: this.registrado})
     },
     agregarHorario() {
       if (this.time !== null){

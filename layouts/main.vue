@@ -69,21 +69,6 @@ export default {
           icon: 'mdi-cog',
           to: '/veterinario/configuracion'
         },
-        {
-          title: 'Incidencia',
-          icon: 'mdi-calendar',
-          to: '/veterinario/incidencia'
-        },
-        {
-          title: 'Seguimiento',
-          icon: 'mdi-calendar',
-          to: '/veterinario/seguimiento'
-        },
-        {
-          title: 'Monitoreo de Incidentes',
-          icon: 'mdi-calendar',
-          to: '/veterinario/monitoreo'
-        }
       ],
       right: true,
       rightDrawer: false,
