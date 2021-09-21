@@ -28,6 +28,7 @@
           rounded
           color="primary"
           @click="infoRegistrada"
+          :disabled="registrado"
         >
           Guardar
         </v-btn>
@@ -35,6 +36,7 @@
           v-if="registrado"
           rounded
           color="primary"
+          @click="actualizarCuidadoSanitario"
         >
           Actualizar
         </v-btn>
@@ -50,6 +52,7 @@
                 hide-details
                 solo
                 style="background: white"
+                :disabled="registrado"
               />
             </v-col>
           </v-row>
@@ -76,6 +79,7 @@
                     hide-details
                     solo
                     locale="es-PE"
+                    :disabled="registrado"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -97,6 +101,7 @@
                 outlined
                 style="background: white"
                 @click="agregarEvento"
+                :disabled="registrado"
               >
                 + Agregar
               </v-btn>
@@ -105,7 +110,7 @@
           <div style="margin: 1px; padding: 10px">
             <v-card rounded v-for="(evento,index) in eventos" :key="index" style="margin: 5px; background: #DEFFA1; padding: 10px">
               <v-card-title style="display: flex; justify-content: right; padding: 2px">
-                <v-icon @click="eliminarEvento(index)">{{icons.mdiCloseCircle}}</v-icon>
+                <v-icon @click="eliminarEvento(index)" :disabled="registrado">{{icons.mdiCloseCircle}}</v-icon>
               </v-card-title>
               <v-card-text style="padding: 5px; display: flex; justify-content: center">
                 <h3>
@@ -128,6 +133,9 @@ import {mdiAlert, mdiCheckboxMarkedCircle, mdiCloseCircle} from '@mdi/js';
 
 export default {
   name: "CuidadoSanitario",
+  props: {
+    idIncidente: String,
+  },
   data: () => ({
     icons: {
       mdiCloseCircle,
@@ -146,6 +154,7 @@ export default {
     menu2: false,
     disabled: false,
     eventos: [],
+    actualizar: false,
   }),
   methods: {
     agregarEvento() {
@@ -162,9 +171,25 @@ export default {
       this.eventos.splice(index,1);
     },
     infoRegistrada() {
-      console.log('Información del día', this.date);
-
+      if (this.actualizar) {
+        console.log("este es un registro de actualizacion");
+        this.actualizar = false;
+      } else {
+        console.log("Este es un registro nuevo");
+        this.registrado = true;
+      }
     },
+    actualizarCuidadoSanitario(){
+      this.registrado = !this.registrado;
+      this.actualizar = true;
+    }
+  },
+  mounted() {
+    if (this.idIncidente === '1') {
+      this.eventos = [{nombre: 'Vacunacion A', dia: '2021-05-12'},{nombre: 'Vacunacion B', dia: '2021-09-12'}];
+      this.registrado = true;
+
+    }
   },
 }
 </script>

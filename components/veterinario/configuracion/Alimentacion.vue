@@ -13,9 +13,9 @@
     <v-icon v-else color="#FFDA2D">
       {{icons.mdiAlert}}
     </v-icon>
-    <h6 style="margin-top: 20px">
+    <h5 style="margin-top: 20px">
       Por favor, agregue los horarios de alimentación para la familia:
-    </h6>
+    </h5>
     <v-card
       elevation="2"
       width="600px"
@@ -143,7 +143,7 @@ import { mdiCloseCircle, mdiCheckboxMarkedCircle, mdiAlert } from '@mdi/js';
 export default {
   name: "Alimentacion",
   props: {
-    idAlimentacion: String,
+    idIncidente: String,
   },
   data: () => ({
     icons: {
@@ -195,15 +195,11 @@ export default {
     }
   },
   mounted() {
-    console.log('El valor del id del props es: ', this.idAlimentacion);
-    let data = null;
-    if (data === null) {
-      console.log('Es la primera vez que se debe registrar');
-    } else {
-      console.log('Aqui ya se encuentra registrada la información');
+    if (this.idIncidente === '1') {
       this.alimento = 'Alimento A';
       this.cantidadAlimento = '12';
       this.horasAlimentacion = ['12:30', '13:20', '15:22'];
+      this.registrado = true;
     }
   }
 }

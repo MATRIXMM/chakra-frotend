@@ -23,11 +23,11 @@
       </v-row>
     </div>
     <v-divider style="margin-top: 30px; margin-bottom: 30px"/>
-    <Alimentacion :idAlimentacion="this.$route.params.id"/>
+    <Alimentacion :id-incidente="this.$route.params.id" />
     <v-divider style="margin-top: 30px; margin-bottom: 30px"/>
-    <Pastoreo />
+    <Pastoreo :id-incidente="this.$route.params.id" />
     <v-divider style="margin-top: 30px; margin-bottom: 30px"/>
-    <CuidadoSanitario />
+    <CuidadoSanitario :id-incidente="this.$route.params.id" />
   </div>
 </template>
 

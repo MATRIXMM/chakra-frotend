@@ -13,9 +13,9 @@
     <v-icon v-else color="#FFDA2D">
       {{icons.mdiAlert}}
     </v-icon>
-    <h6 style="margin-top: 20px">
+    <h5 style="margin-top: 20px">
       Por favor, configure el horario de pastoreo para la familia:
-    </h6>
+    </h5>
     <v-card
       elevation="2"
       width="600px"
@@ -28,6 +28,7 @@
           rounded
           color="primary"
           @click="infoRegistrada"
+          :disabled="registrado"
         >
           Guardar
         </v-btn>
@@ -35,6 +36,7 @@
           v-if="registrado"
           rounded
           color="primary"
+          @click="actualizarPastoreo"
         >
           Actualizar
         </v-btn>
@@ -50,6 +52,7 @@
                 solo
                 hide-details
                 style="background: white"
+                :disabled="registrado"
               />
             </v-col>
           </v-row>
@@ -78,6 +81,7 @@
                     hide-details
                     solo
                     style="background: white"
+                    :disabled="registrado"
                   ></v-text-field>
                 </template>
                 <v-time-picker
@@ -99,6 +103,7 @@
                 style="background: white"
                 :items="diasSemana"
                 v-model="diaSelecto"
+                :disabled="registrado"
               />
             </v-col>
           </v-row>
@@ -111,6 +116,7 @@
                 outlined
                 style="background: white"
                 @click="agregarHorario"
+                :disabled="registrado"
               >
                 + Agregar
               </v-btn>
@@ -123,7 +129,7 @@
                   <h3>
                     {{horario.dia}}
                   </h3>
-                  <v-icon @click="eliminarHorario(index)">{{icons.mdiCloseCircle}}</v-icon>
+                  <v-icon @click="eliminarHorario(index)" :disabled="registrado">{{icons.mdiCloseCircle}}</v-icon>
                 </v-row>
                 <v-row style="margin: 1px;">
                   Tiempo: {{horario.tiempo}} min
@@ -145,6 +151,9 @@ import { mdiCloseCircle, mdiCheckboxMarkedCircle, mdiAlert } from '@mdi/js';
 
 export default {
   name: "Pastoreo",
+  props: {
+    idIncidente: String,
+  },
   data: () => ({
     icons: {
       mdiCloseCircle,
@@ -168,6 +177,7 @@ export default {
       'Sábado',
       'Domingo',
     ],
+    actualizar: false,
   }),
   methods: {
     agregarHorario() {
@@ -189,8 +199,26 @@ export default {
       console.log('Información del día', this.diaSelecto);
       console.log('Información del horario', this.time);
       console.log('Información del tiempo', this.tiempoPastoreo);
+      if (this.actualizar) {
+        console.log("este es un registro de actualizacion");
+        this.actualizar = false;
+      } else {
+        console.log("Este es un registro nuevo");
+        this.registrado = true;
+      }
     },
+    actualizarPastoreo(){
+      this.registrado = !this.registrado;
+      this.actualizar = true;
+    }
   },
+  mounted() {
+    if (this.idIncidente === '1') {
+      this.horariosPastoreo = [{dia: 'Jueves', horario: '12:30', tiempo: 120}]
+      this.registrado = true;
+
+    }
+  }
 }
 </script>
 

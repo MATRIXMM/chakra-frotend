@@ -153,6 +153,7 @@ export default {
     menu2: false,
     disabled: false,
     eventos: [],
+    actualizar: false,
   }),
   methods: {
     agregarEvento() {
@@ -186,7 +187,6 @@ export default {
     if (this.idIncidente === '2') {
       this.eventos = [{nombre: 'Vacunacion A', dia: '2021-05-12'},{nombre: 'Vacunacion B', dia: '2021-09-12'}];
       this.registrado = true;
-      this.$emit('getDays', { diasSeguimiento: this.diasSeguimiento })
 
     }
   },
