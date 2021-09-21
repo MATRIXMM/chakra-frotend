@@ -1,5 +1,6 @@
 <template>
   <div style="margin: 10px">
+    <Confirmacion :key="dialogConfirmacionKey" v-model="dialogConfirmacion" :funcion="registrarAlimentacion" message="¿Está seguro que desea configurar la alimentación de este modo?" />
     <v-chip
       color= #1976D2
       text-color="black"
@@ -28,7 +29,7 @@
             v-if="!registrado"
             rounded
             color="primary"
-            @click="registrarAlimentacion"
+            @click="dialogConfirmacion = true"
           >
             Guardar
           </v-btn>
@@ -152,9 +153,13 @@
 
 <script>
 import { mdiCloseCircle, mdiCheckboxMarkedCircle, mdiAlert } from '@mdi/js';
+import Confirmacion from "@/components/confirmacion/Confirmacion";
 
 export default {
   name: "Alimentacion",
+  components: {
+    Confirmacion: Confirmacion,
+  },
   props: {
     idIncidente: String,
   },
@@ -175,6 +180,8 @@ export default {
     disabled: false,
     horasAlimentacion: [],
     actualizar: false,
+    dialogConfirmacionKey: 1,
+    dialogConfirmacion: false,
   }),
   methods: {
     registrarAlimentacion(){
@@ -191,6 +198,7 @@ export default {
         console.log("Este es un registro nuevo");
         this.registrado = true;
       }
+      this.dialogConfirmacion = false;
     },
     agregarHorario() {
       if (this.time !== null){
