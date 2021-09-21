@@ -37,7 +37,7 @@ export default {
     }),
     changeAnimal({ animal }){
       this.changeAnimalState({ animal })
-      this.$router.push('/admin/configuracion')
+      this.$router.push('/veterinario/configuracion')
     }
   }
 };

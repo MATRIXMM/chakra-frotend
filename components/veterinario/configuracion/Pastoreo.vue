@@ -7,9 +7,15 @@
     >
       Pastoreo
     </v-chip>
-    <h6 style="margin-top: 20px">
+    <v-icon v-if="registrado" color="primary">
+      {{icons.mdiCheckboxMarkedCircle}}
+    </v-icon>
+    <v-icon v-else color="#FFDA2D">
+      {{icons.mdiAlert}}
+    </v-icon>
+    <h5 style="margin-top: 20px">
       Por favor, configure el horario de pastoreo para la familia:
-    </h6>
+    </h5>
     <v-card
       elevation="2"
       width="600px"
@@ -17,33 +23,23 @@
       <v-card-title
         style="display: flex; justify-content: right;background: #FFEAB5"
       >
-        <div>
-          <v-btn
-            v-if="!registrado"
-            rounded
-            outlined
-            color="primary"
-            style="background: white"
-            :disabled="disabled"
-          >
-            Cancelar
-          </v-btn>
-          <v-btn
-            v-if="!registrado"
-            rounded
-            color="primary"
-            @click="infoRegistrada"
-          >
-            Guardar
-          </v-btn>
-          <v-btn
-            v-if="registrado"
-            rounded
-            color="primary"
-          >
-            Actualizar
-          </v-btn>
-        </div>
+        <v-btn
+          v-if="!registrado"
+          rounded
+          color="primary"
+          @click="infoRegistrada"
+          :disabled="registrado"
+        >
+          Guardar
+        </v-btn>
+        <v-btn
+          v-if="registrado"
+          rounded
+          color="primary"
+          @click="actualizarPastoreo"
+        >
+          Actualizar
+        </v-btn>
       </v-card-title>
       <v-card-text style="display: flex; justify-content: center; background: #FFEAB5">
         <div>
@@ -56,6 +52,7 @@
                 solo
                 hide-details
                 style="background: white"
+                :disabled="registrado"
               />
             </v-col>
           </v-row>
@@ -77,12 +74,14 @@
                   <v-text-field
                     v-model="time"
                     label="Horario"
-                    prepend-icon="mdi-clock-time-four-outline"
+                    prepend-inner-icon="mdi-clock-time-four-outline"
                     readonly
                     v-bind="attrs"
                     v-on="on"
                     hide-details
+                    solo
                     style="background: white"
+                    :disabled="registrado"
                   ></v-text-field>
                 </template>
                 <v-time-picker
@@ -104,40 +103,43 @@
                 style="background: white"
                 :items="diasSemana"
                 v-model="diaSelecto"
+                :disabled="registrado"
               />
             </v-col>
           </v-row>
           <v-row style="display: flex; justify-content: right; margin: 1px">
-            <v-btn
-              color="primary"
-              rounded
-              @click="agregarHorario"
-            >
-              + Agregar
-            </v-btn>
+            <v-col md="8"></v-col>
+            <v-col md="4" style="justify-content: right; display: flex">
+              <v-btn
+                color="primary"
+                rounded
+                outlined
+                style="background: white"
+                @click="agregarHorario"
+                :disabled="registrado"
+              >
+                + Agregar
+              </v-btn>
+            </v-col>
           </v-row>
-          <v-col md="12">
-            <v-card style=";margin: 7px">
-              <div style="margin: 1px; padding: 10px">
-                <v-card v-for="(horario,index) in horariosPastoreo" :key="index" style="margin: 5px; background: #DEFFA1; padding: 10px; display: inline-block">
-                  <template>
-                    <v-row style="margin: 1px; display: flex; justify-content: space-between">
-                      <h3>
-                        {{horario.dia}}
-                      </h3>
-                      <v-icon @click="eliminarHorario(index)">{{icons.mdiCloseCircle}}</v-icon>
-                    </v-row>
-                    <v-row style="margin: 1px;">
-                      Tiempo: {{horario.tiempo}} min
-                    </v-row>
-                    <v-row style="margin: 1px;">
-                      Salida: {{horario.horario}} hrs
-                    </v-row>
-                  </template>
-                </v-card>
-              </div>
+          <div style="margin: 1px; padding: 10px; display: table-cell">
+            <v-card v-for="(horario,index) in horariosPastoreo" :key="index" style="margin: 5px; background: #DEFFA1; padding: 10px; display: inline-block">
+              <template>
+                <v-row style="margin: 1px; display: flex; justify-content: space-between">
+                  <h3>
+                    {{horario.dia}}
+                  </h3>
+                  <v-icon @click="eliminarHorario(index)" :disabled="registrado">{{icons.mdiCloseCircle}}</v-icon>
+                </v-row>
+                <v-row style="margin: 1px;">
+                  Tiempo: {{horario.tiempo}} min
+                </v-row>
+                <v-row style="margin: 1px;">
+                  Salida: {{horario.horario}} hrs
+                </v-row>
+              </template>
             </v-card>
-          </v-col>
+          </div>
         </div>
       </v-card-text>
     </v-card>
@@ -145,13 +147,18 @@
 </template>
 
 <script>
-import { mdiCloseCircle } from '@mdi/js';
+import { mdiCloseCircle, mdiCheckboxMarkedCircle, mdiAlert } from '@mdi/js';
 
 export default {
   name: "Pastoreo",
+  props: {
+    idIncidente: String,
+  },
   data: () => ({
     icons: {
-      mdiCloseCircle
+      mdiCloseCircle,
+      mdiCheckboxMarkedCircle,
+      mdiAlert
     },
     diaSelecto: '',
     registrado: false,
@@ -170,6 +177,7 @@ export default {
       'Sábado',
       'Domingo',
     ],
+    actualizar: false,
   }),
   methods: {
     agregarHorario() {
@@ -191,8 +199,26 @@ export default {
       console.log('Información del día', this.diaSelecto);
       console.log('Información del horario', this.time);
       console.log('Información del tiempo', this.tiempoPastoreo);
+      if (this.actualizar) {
+        console.log("este es un registro de actualizacion");
+        this.actualizar = false;
+      } else {
+        console.log("Este es un registro nuevo");
+        this.registrado = true;
+      }
     },
+    actualizarPastoreo(){
+      this.registrado = !this.registrado;
+      this.actualizar = true;
+    }
   },
+  mounted() {
+    if (this.idIncidente === '1') {
+      this.horariosPastoreo = [{dia: 'Jueves', horario: '12:30', tiempo: 120}]
+      this.registrado = true;
+
+    }
+  }
 }
 </script>
 

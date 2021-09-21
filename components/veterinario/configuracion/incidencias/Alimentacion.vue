@@ -13,9 +13,9 @@
     <v-icon v-else color="#FFDA2D">
       {{icons.mdiAlert}}
     </v-icon>
-    <h5 style="margin-top: 20px">
-      Por favor, agregue los horarios de alimentación para la familia:
-    </h5>
+    <h6 style="margin-top: 20px">
+      Por favor, agregue los horarios de alimentación para los animales:
+    </h6>
     <v-card
       elevation="2"
       width="600px"
@@ -63,6 +63,19 @@
               <v-text-field
                 label="Cantidad de alimento"
                 v-model="cantidadAlimento"
+                solo
+                hide-details
+                style="background: white"
+                :disabled="registrado"
+              />
+            </v-col>
+          </v-row>
+          <v-row style="align-items: center;margin: 1px">
+            <v-col md="8"><h3>Días de seguimiento:</h3></v-col>
+            <v-col md="4" no-gutters>
+              <v-text-field
+                label="Días de seguimiento"
+                v-model="diasSeguimiento"
                 solo
                 hide-details
                 style="background: white"
@@ -127,7 +140,7 @@
             <v-chip dense v-for="(horario,index) in horasAlimentacion" :key="index" style="margin: 5px; background: #DEFFA1">
               <h3>{{horario}}</h3>
               <template>
-                <v-icon :disabled="registrado" style="margin-left: 5px" @click="eliminarHorario(index)">{{icons.mdiCloseCircle}}</v-icon>
+                <v-icon style="margin-left: 5px" :disabled="registrado" @click="eliminarHorario(index)">{{icons.mdiCloseCircle}}</v-icon>
               </template>
             </v-chip>
           </v-card-actions>
@@ -151,6 +164,7 @@ export default {
       mdiCheckboxMarkedCircle,
       mdiAlert
     },
+    diasSeguimiento: null,
     registrado: false,
     alimento: '',
     cantidadAlimento: '',
@@ -165,9 +179,11 @@ export default {
   methods: {
     registrarAlimentacion(){
       console.log(this.$route.params.id)
-      console.log('Este es un mensaje', this.alimento);
-      console.log('Este es otro mensaje', this.cantidadAlimento);
-      console.log('Este es otro mensaje', this.horasAlimentacion);
+      console.log('Este es un alimento', this.alimento);
+      console.log('Este es cantidad de alimento', this.cantidadAlimento);
+      console.log('Este es los días de seguimiento', this.diasSeguimiento);
+      console.log('Este es las horas de alimentacion', this.horasAlimentacion);
+      this.$emit('getDays', { diasSeguimiento: this.diasSeguimiento })
       if (this.actualizar) {
         console.log("este es un registro de actualizacion");
         this.actualizar = false;
@@ -195,13 +211,20 @@ export default {
     }
   },
   mounted() {
-    if (this.idIncidente === '1') {
+    console.log('El valor del id del props es: ', this.idIncidente);
+    let data = null;
+    if (this.idIncidente === '2') {
+      console.log('Es la primera vez que se debe registrar');
+      console.log('Aqui ya se encuentra registrada la información');
       this.alimento = 'Alimento A';
       this.cantidadAlimento = '12';
+      this.diasSeguimiento = 15;
       this.horasAlimentacion = ['12:30', '13:20', '15:22'];
       this.registrado = true;
-      this.$emit('config', {value: this.registrado})
+      this.$emit('getDays', { diasSeguimiento: this.diasSeguimiento })
+
     }
+
   }
 }
 </script>
