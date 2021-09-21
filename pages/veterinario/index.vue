@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Confirmacion :key="dialogConfirmacionKey" v-model="dialogConfirmacion" @accept="RegistroInformacion" />
+    <Confirmacion :key="dialogConfirmacionKey" v-model="dialogConfirmacion" :funcion=RegistroInformacion :message="message" />
     <v-btn
       @click="RegistraDatos"
     >
@@ -21,10 +21,13 @@ export default {
   data: () => ({
     dialogConfirmacionKey: 1,
     dialogConfirmacion: false,
+    message: '¿Está seguro que desea configurar la sección de alimentación de este modo?',
   }),
   methods: {
     RegistroInformacion(value){
       console.log("Registro exitoso");
+      this.dialogConfirmacion = false;
+
     },
     RegistraDatos(){
       this.dialogConfirmacion = true;
