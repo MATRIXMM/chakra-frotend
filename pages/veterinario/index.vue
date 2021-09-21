@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Confirmacion :key="dialogConfirmacionKey" v-model="dialogConfirmacion"@accept="RegistroInformacion" />
+    <Confirmacion :key="dialogConfirmacionKey" v-model="dialogConfirmacion" @accept="RegistroInformacion" />
     <v-btn
       @click="RegistraDatos"
     >
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-
+import { mapState } from 'vuex';
 import Confirmacion from "@/components/confirmacion/Confirmacion";
 
 export default {
@@ -30,6 +30,15 @@ export default {
       this.dialogConfirmacion = true;
     },
   },
+  computed: {
+    ...mapState({
+      animal: state => state.animal,
+    }),
+  },
+  mounted() {
+    console.log("El animal seleccionado es", this.animal);
+  }
+
 }
 </script>
 

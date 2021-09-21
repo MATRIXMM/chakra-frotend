@@ -34,6 +34,8 @@
 
 import FamiliasRegistradas from "@/components/veterinario/configuracion/FamiliasRegistradas";
 import IncidentesRegistrados from "@/components/veterinario/configuracion/IncidentesRegistrados";
+import {mapState} from "vuex";
+
 export default {
   components: {
     FamiliasRegistradas: FamiliasRegistradas,
@@ -45,10 +47,14 @@ export default {
     nameTabs: ['FAMILIAS DE ALPACAS REGISTRADAS', 'INCIDENTES DE ALPACAS REGISTRADAS'],
     tab: null,
   }),
-  methods: {
+  computed: {
+    ...mapState({
+      animal: state => state.animal,
+    }),
   },
-  mounted(){
-  },
+  mounted() {
+    console.log("El animal seleccionado es", this.animal.name);
+  }
 }
 </script>
 
