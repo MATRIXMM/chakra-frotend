@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="this.diasSeguimiento > 0" style="margin: 10px; margin-bottom: 30px">
+    <div :key="keyLinear" v-if="this.diasSeguimiento > 0" style="margin: 10px; margin-bottom: 30px">
       <p>Periodo de seguimiento disponible por {{this.diasSeguimiento}} días</p>
       <v-progress-linear
         v-model="porcentaje"
@@ -40,7 +40,7 @@
       </v-card>
     </div>
     <v-divider style="margin-top: 30px; margin-bottom: 30px"/>
-    <Alimentacion />
+    <Alimentacion @getDays="getDays"/>
     <v-divider style="margin-top: 30px; margin-bottom: 30px"/>
     <CuidadoSanitario />
     <v-divider style="margin-top: 30px; margin-bottom: 30px"/>
@@ -65,8 +65,15 @@ export default {
     nombreAnimal: 'Pedro',
     observacion: 'Contagio de una enfermedad de la piel',
     porcentaje: 2,
-    diasSeguimiento: 2,
+    diasSeguimiento: 0,
+    keyLinear: 10,
   }),
+  methods: {
+    getDays({ diasSeguimiento }){
+      this.diasSeguimiento = diasSeguimiento;
+      this.keyLinear += 1;
+    },
+  }
 }
 </script>
 
