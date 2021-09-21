@@ -67,7 +67,7 @@ export default {
         sortable: false,
         value: 'nombreFamilia',
       },
-      { text: 'Número de alpacas', value: 'cantidadFamilia' },
+      { text: 'Número de animales', value: 'cantidadFamilia' },
       { text: 'Característica', value: 'caracteristica' },
       { text: 'Estado de configuración', value: 'configuration' },
     ],
