@@ -4,9 +4,22 @@
       Configuracion de reglas de crianza para {{this.nombreAnimal}} con incidentes
     </h2>
     <VDivider />
-    <h5>
-      Seleccione la familia que desea configurar las reglas de crianza
-    </h5>
+    <v-row style="display: flex; margin: 0px; margin-top: 10px; align-items: center">
+      <v-col md="10" style="padding: 0px">
+        Seleccione la familia que desea configurar las reglas de crianza
+      </v-col>
+      <v-col md="1" style="padding: 0px">
+        Periodo:
+      </v-col>
+      <v-col md="1" style="padding: 0px">
+        <v-select
+          v-model="periodoActual"
+          :items="periodos"
+          solo
+          hide-details
+        ></v-select>
+      </v-col>
+    </v-row>
     <v-card style="margin-top: 100px">
       <v-card-title>
         <v-text-field
@@ -53,6 +66,8 @@ export default {
     nombreAnimal: String,
   },
   data: () => ({
+    periodos: ['2021-2'],
+    periodoActual: '2021-2',
     search: '',
     icons: {
       mdiCheckboxMarkedCircle,
