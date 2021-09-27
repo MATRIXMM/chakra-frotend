@@ -57,7 +57,7 @@
   </v-row>
 </template>
 <script>
-// import { mapActions, mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   data() {
@@ -73,23 +73,23 @@ export default {
       passwordRules: [(v) => !!v || "La contraseña es obligatoria"],
     };
   },
-  // computed: {
-  //   ...mapState({
-  //     loading: (state) => state.auth.loading,
-  //   }),
-  // },
+  computed: {
+    ...mapState({
+      loading: (state) => state.loading,
+    }),
+  },
   methods: {
     login() {
       this.$refs.form.validate();
       const payload = { email: this.email, password: this.password };
-      this.$router.push('/welcome')
-      // if (this.valid) {
-      //   this.loginState({ payload });
-      // }
+      if (this.valid) {
+        this.loginState({ payload });
+        this.$router.push('/welcome')
+      }
     },
-    // ...mapActions({
-    //   loginState: "auth/login",
-    // }),
+    ...mapActions({
+      loginState: "login",
+    }),
   },
 };
 </script>

@@ -25,21 +25,27 @@
 </template>
 <script>
 import { animals } from "@/assets/json/animals";
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   data: () => ({
     animals,
   }),
+  middleware: 'auth',
   methods: {
     ...mapActions({
       changeAnimalState: 'changeAnimal',
     }),
     changeAnimal({ animal }){
       this.changeAnimalState({ animal })
-      this.$router.push('/veterinario/configuracion')
+      this.$router.push(this.getUserOptions[0].to)
     }
-  }
+  },
+  computed: {
+      ...mapGetters([
+      'getUserOptions',
+    ])
+  },
 };
 </script>
 <style scoped>

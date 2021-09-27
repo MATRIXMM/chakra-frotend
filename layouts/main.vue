@@ -11,7 +11,7 @@
       </div>
       <v-list>
         <v-list-item
-          v-for="(item, i) in items"
+          v-for="(item, i) in getUserOptions"
           :key="i"
           :to="item.to"
           router
@@ -25,6 +25,28 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+
+      <template v-slot:append>
+         <v-list dense nav>
+          <v-list-item link @click="changeAnimal">
+            <v-list-item-action>
+              <v-icon>mdi-swap-horizontal</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Cambio de animal</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item link @click="logout">
+            <v-list-item-action>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Cerrar sesión</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+
+      </template>
     </v-navigation-drawer>
     <v-app-bar
       fixed
@@ -51,10 +73,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  middleware: 'animal',
+  middleware: ['auth', 'animal'],
   data () {
     return {
       fixed: false,
@@ -78,6 +100,15 @@ export default {
   computed: {
         ...mapGetters([
       'getAnimalName',
+      'getUserOptions',
+    ])
+  },
+  methods: {
+    changeAnimal() {
+      this.$router.push('/welcome')
+    },
+    ...mapActions([
+      'logout'
     ])
   }
 }
