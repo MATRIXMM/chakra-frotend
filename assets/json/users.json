@@ -1,0 +1,70 @@
+{
+  "users": [
+    {
+      "id": "admin",
+      "email": "admin@pucp.edu.pe",
+      "title": "Administrador",
+      "options": [
+        {
+          "title": "Inicio",
+          "icon": "mdi-home",
+          "to": "/admin"
+        },
+        {
+          "title": "Configuración",
+          "icon": "mdi-cog",
+          "to": "/admin/configuracion"
+        }
+      ]
+    },
+    {
+      "id": "farmer",
+      "email": "farmer@pucp.edu.pe",
+      "title": "Granjero",
+      "options": [
+        {
+          "title": "Inicio",
+          "icon": "mdi-home",
+          "to": "/granjero"
+        },
+        {
+          "title": "Crianza",
+          "icon": "mdi-bell-alert",
+          "to": "/granjero/crianza"
+        },
+        {
+          "title": "Monitoreo",
+          "icon": "mdi-magnify",
+          "to": "/granjero/monitoreo"
+        }
+      ]
+    },
+    {
+      "id": "vet",
+      "email": "vet@pucp.edu.pe",
+      "title": "Veterinario",
+      "options": [
+        {
+          "title": "Configuración",
+          "icon": "mdi-cog",
+          "to": "/veterinario/configuracion"
+        },
+        {
+          "title": "Incidencia",
+          "icon": "mdi-alert-circle",
+          "to": "/veterinario/incidencia"
+        },
+        {
+          "title": "Seguimiento",
+          "icon": "mdi-eye",
+          "to": "/veterinario/seguimiento"
+        },
+        {
+          "title": "Monitoreo de incidentes",
+          "icon": "mdi-magnify",
+          "to": "/veterinario/monitoreo"
+        }
+      ]
+    }
+  ]
+}
