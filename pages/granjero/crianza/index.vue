@@ -23,7 +23,7 @@
           <Alimentacion />
         </div>
         <div v-if="n === 2" style="padding: 15px">
-          hola2
+          <Pastoreo />
         </div>
         <div v-if="n === 3" style="padding: 15px">
           hola3
@@ -39,12 +39,14 @@
 <script>
 
 import Alimentacion from "@/components/granjero/Alimentacion";
+import Pastoreo from "@/components/granjero/Pastoreo";
 
 export default {
   layout: 'main',
   name: "index",
   components: {
     Alimentacion: Alimentacion,
+    Pastoreo: Pastoreo,
   },
   data: () => ({
     tab: null,

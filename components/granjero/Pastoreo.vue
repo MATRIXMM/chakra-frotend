@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 20px">
     <h2>
-      Alimentación de familias de {{this.animal.name}}
+      Pastoreo de familias de {{this.animal.name}}
     </h2>
     <VDivider />
     <v-row style="display: flex; margin: 0px; margin-top: 10px; align-items: center">
@@ -27,7 +27,7 @@
 import {mapState} from "vuex";
 
 export default {
-  name: "Alimentacion",
+  name: "Pastoreo",
   data: () => ({
     currentDay: new Date(),
     periodos: ['2021-2'],
