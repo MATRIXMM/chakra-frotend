@@ -23,8 +23,8 @@
     <v-chip color="blue" class="font-weight-bold" style="margin-top: 30px; margin-bottom: 20px">
       ALIMENTACION
     </v-chip>
-    <v-container>
-      <CardAlimentacion v-for="i in 1" />
+    <v-container style="display: table; justify-content: center">
+      <CardAlimentacion v-for="i in 4" style="display: inline-block; margin: 20px"/>
     </v-container>
     <v-chip color="blue" class="font-weight-bold" style="margin-top: 30px">
       ALIMENTACION ESPECIAL
