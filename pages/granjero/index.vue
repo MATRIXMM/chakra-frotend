@@ -1,12 +1,18 @@
 <template>
   <div style="padding: 20px">
-    <h2>
-      {{this.nombreAnimal}} registradas
+    <h2 v-if="this.animal.name === 'ovinos' ">
+      Familia de Ovinos registrados
+    </h2>
+    <h2 v-else>
+      Familia de Alpacas registradas
     </h2>
     <VDivider />
     <v-row style="display: flex; margin: 0px; margin-top: 10px; align-items: center">
-      <v-col md="10" style="padding: 0px">
-        listado de {{this.nombreAnimal}} registradas por familias
+      <v-col v-if="this.animal.name === 'ovinos'" md="10" style="padding: 0px">
+        Listado de Ovinos registrados por familias
+      </v-col>
+      <v-col v-else md="10" style="padding: 0px">
+        Listado de Alpacas registradas por familias
       </v-col>
       <v-col md="1" style="padding: 0px">
         Periodo:
@@ -45,6 +51,7 @@
 
 <script>
 import {mdiAlert, mdiCheckboxMarkedCircle} from "@mdi/js";
+import {mapState} from "vuex";
 
 export default {
   layout: 'main',
@@ -98,6 +105,11 @@ export default {
       }
     ],
   }),
+  computed: {
+    ...mapState({
+      animal: state => state.animal,
+    }),
+  },
 }
 </script>
 
