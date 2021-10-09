@@ -20,11 +20,11 @@
         ></v-select>
       </v-col>
     </v-row>
-    <v-chip color="blue" class="font-weight-bold" style="margin-top: 30px">
+    <v-chip color="blue" class="font-weight-bold" style="margin-top: 30px; margin-bottom: 20px">
       ALIMENTACION
     </v-chip>
     <v-container>
-      <CardAlimentacion />
+      <CardAlimentacion v-for="i in 1" />
     </v-container>
     <v-chip color="blue" class="font-weight-bold" style="margin-top: 30px">
       ALIMENTACION ESPECIAL
