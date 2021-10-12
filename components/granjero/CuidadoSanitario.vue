@@ -4,14 +4,14 @@
       Cuidado Sanitario de familias de {{this.animal.name}}
     </h2>
     <VDivider />
-    <v-row style="display: flex; margin: 0px; margin-top: 10px; align-items: center">
-      <v-col md="10" style="padding: 0px">
+    <v-row style="display: flex; margin: 0; margin-top: 10px; align-items: center">
+      <v-col md="10" style="padding: 0">
         {{ formatDay(currentDay) }}
       </v-col>
-      <v-col md="1" style="padding: 0px">
+      <v-col md="1" style="padding: 0">
         Periodo:
       </v-col>
-      <v-col md="1" style="padding: 0px">
+      <v-col md="1" style="padding: 0">
         <v-select
           v-model="periodoActual"
           :items="periodos"
@@ -20,14 +20,32 @@
         ></v-select>
       </v-col>
     </v-row>
+    <v-spacer />
+    <v-container style="margin-top: 20px">
+      <v-timeline
+      >
+        <v-timeline-item
+          v-for="i in 3"
+          :key = "i"
+          fill-dot
+          oppo
+        >
+          <CardCuidadoSanitario />
+        </v-timeline-item>
+      </v-timeline>
+    </v-container>
   </div>
 </template>
 
 <script>
 import {mapState} from "vuex";
+import CardCuidadoSanitario from "@/components/granjero/CardCuidadoSanitario";
 
 export default {
   name: "CuidadoSanitario",
+  components :{
+    CardCuidadoSanitario: CardCuidadoSanitario,
+  },
   data: () => ({
     currentDay: new Date(),
     periodos: ['2021-2'],
