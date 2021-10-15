@@ -21,14 +21,15 @@
       </v-col>
     </v-row>
     <v-spacer />
-    <v-container style="margin-top: 20px">
+    <v-container style="margin-top: 20px; padding-right: 150px; padding-left: 150px">
       <v-timeline
+        align-top
+        :dense="$vuetify.breakpoint.smAndDown"
       >
         <v-timeline-item
           v-for="i in 3"
           :key = "i"
           fill-dot
-          class="text-center"
         >
           <CardCuidadoSanitario />
         </v-timeline-item>

@@ -1,5 +1,5 @@
 <template>
-  <v-card height="216px" width="370px" rounded class="rounded-xl" style="background: #DEFFA1">
+  <v-card height="216px" width="auto" class="rounded-xl" style="background: #DEFFA1;" >
     <v-card-title>
       Vacunación - Familia 1
     </v-card-title>
