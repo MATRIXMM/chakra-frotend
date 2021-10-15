@@ -20,14 +20,24 @@
         ></v-select>
       </v-col>
     </v-row>
+    <v-chip color="blue" class="font-weight-bold" style="margin-top: 30px; margin-bottom: 20px">
+      EN CAMPO
+    </v-chip>
+    <v-container style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center">
+      <CardPastoreo v-for="i in 2" :key="i" style="margin: 20px; position: relative" />
+    </v-container>
   </div>
 </template>
 
 <script>
 import {mapState} from "vuex";
+import CardPastoreo from "@/components/granjero/CardPastoreo";
 
 export default {
   name: "Pastoreo",
+  components: {
+    CardPastoreo: CardPastoreo
+  },
   data: () => ({
     currentDay: new Date(),
     periodos: ['2021-2'],

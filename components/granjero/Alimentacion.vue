@@ -24,7 +24,7 @@
       ALIMENTACION
     </v-chip>
     <v-container style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center">
-      <CardAlimentacion v-for="i in 2" style="margin: 20px; position: relative"/>
+      <CardAlimentacion v-for="i in 2" :key="i" style="margin: 20px; position: relative" />
     </v-container>
     <v-chip color="blue" class="font-weight-bold" style="margin-top: 30px">
       ALIMENTACION ESPECIAL
