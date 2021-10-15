@@ -28,7 +28,7 @@
           v-for="i in 3"
           :key = "i"
           fill-dot
-          oppo
+          class="text-center"
         >
           <CardCuidadoSanitario />
         </v-timeline-item>
