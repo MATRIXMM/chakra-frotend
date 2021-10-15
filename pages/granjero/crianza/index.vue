@@ -29,7 +29,7 @@
           <CuidadoSanitario />
         </div>
         <div v-if="n === 4" style="padding: 15px">
-          hola4
+          <HistorialSanitario />
         </div>
       </v-tab-item>
     </v-tabs-items>
@@ -41,6 +41,7 @@
 import Alimentacion from "@/components/granjero/Alimentacion";
 import Pastoreo from "@/components/granjero/Pastoreo";
 import CuidadoSanitario from "@/components/granjero/CuidadoSanitario";
+import HistorialSanitario from "@/components/granjero/HistorialSanitario";
 
 export default {
   layout: 'main',
@@ -49,6 +50,7 @@ export default {
     Alimentacion: Alimentacion,
     Pastoreo: Pastoreo,
     CuidadoSanitario: CuidadoSanitario,
+    HistorialSanitario: HistorialSanitario,
   },
   data: () => ({
     tab: null,
