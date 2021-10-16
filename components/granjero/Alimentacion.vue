@@ -29,8 +29,8 @@
     <v-chip color="blue" class="font-weight-bold" style="margin-top: 30px">
       ALIMENTACION ESPECIAL
     </v-chip>
-    <v-container>
-      Contenido alimentacion especial
+    <v-container style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center">
+      <CardAlimentacionEspecial v-for="i in 2" :key="i" style="margin: 20px; position: relative" />
     </v-container>
   </div>
 </template>
@@ -38,11 +38,13 @@
 <script>
 import {mapState} from "vuex";
 import CardAlimentacion from "@/components/granjero/CardAlimentacion";
+import CardAlimentacionEspecial from "@/components/granjero/CardAlimentacionEspecial";
 
 export default {
   name: "Alimentacion",
   components: {
     CardAlimentacion: CardAlimentacion,
+    CardAlimentacionEspecial: CardAlimentacionEspecial,
   },
   data: () => ({
     currentDay: new Date(),
