@@ -76,7 +76,7 @@ export default {
       {
         nombreAnimal: 'Perico',
         nombreFamilia: 'Familia 1',
-        fechaRegistro: '2021/06/06',
+        fechaRegistro: '2021/05/06',
         gravedad: 'Alta',
         detalleObservacion: 'Contagio de una enfermedad de la piel'
       },
