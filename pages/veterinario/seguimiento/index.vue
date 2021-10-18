@@ -20,13 +20,13 @@
         :key="n"
       >
         <div v-if="n === 1" style="padding: 15px">
-          primero
+          <Alimentacion />
         </div>
         <div v-if="n === 2" style="padding: 15px">
-          segundo
+          <Pastoreo />
         </div>
         <div v-if="n === 3" style="padding: 15px">
-          tercero
+          <CuidadoSanitario />
         </div>
       </v-tab-item>
     </v-tabs-items>
@@ -35,10 +35,18 @@
 
 <script>
 import {mapState} from "vuex";
+import Alimentacion from "@/components/veterinario/seguimiento/Alimentacion";
+import Pastoreo from "@/components/veterinario/seguimiento/Pastoreo";
+import CuidadoSanitario from "@/components/veterinario/seguimiento/CuidadoSanitario";
 
 export default {
   name: "index",
   layout: 'main',
+  components: {
+    Alimentacion : Alimentacion,
+    Pastoreo: Pastoreo,
+    CuidadoSanitario: CuidadoSanitario,
+  },
   data: () => ({
     tab: null,
     nameTabs: ['ALIMENTACION', 'PASTOREO', 'CUIDADO SANITARIO'],
