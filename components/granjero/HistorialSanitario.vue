@@ -1,5 +1,6 @@
 <template>
   <div style="padding: 20px">
+    <RegistrarIncidencia :key="dialogRegisterKey" v-model="dialogRegister" />
     <h2>
       Historial de incidencias registradas de {{this.animal.name}}
     </h2>
@@ -34,6 +35,7 @@
         <v-col style="display: flex; justify-content: end">
           <v-btn
             color="primary"
+            @click="dialogRegister=true"
           >
            + Registar incidencia
           </v-btn>
@@ -52,10 +54,16 @@
 
 <script>
 import {mapState} from "vuex";
+import RegistrarIncidencia from "@/components/granjero/RegistrarIncidencia";
 
 export default {
   name: "HistorialSanitario",
+  components: {
+    RegistrarIncidencia: RegistrarIncidencia,
+  },
   data: () => ({
+    dialogRegister: false,
+    dialogRegisterKey: 1,
     currentDay: new Date(),
     periodos: ['2021-2'],
     periodoActual: '2021-2',
