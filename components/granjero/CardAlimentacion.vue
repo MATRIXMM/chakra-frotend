@@ -1,7 +1,11 @@
 <template>
-  <v-card height="326px" width="370px" rounded>
-    <v-card-title style="background: #FFEAB5">
+  <v-card height="330px" width="370px" rounded>
+    <Alerta :key="dialogAlertKey" v-model="dialogAlert" message="Alpacas: En 5 minutos se tiene programada la alimentación de la familia 1" />
+    <v-card-title style="background: #FFEAB5; display: flex; justify-content: space-between">
       {{ this.familia.nombreFamilia }}
+      <v-icon large @click="playSound">
+        mdi-bell
+      </v-icon>
     </v-card-title>
     <v-card-text style="padding: 10px; height: 210px; justify-content: center">
       <v-row v-for="(horario,index) in this.familia.horarios" :key="index" style="margin: 0; display: flex; align-content: center">
@@ -64,14 +68,29 @@
 </template>
 
 <script>
+import Alerta from "@/components/confirmacion/Alerta";
+
 export default {
   name: "CardAlimentacion",
+  components: {
+    Alerta: Alerta,
+  },
   props: {
     familia: {},
   },
   data: () => ({
-    horarios: [{id:1, horario:'09:00', estado: true}, {id:2, horario:'12:00', estado: true}, {id:3, horario:'16:00', estado: false}]
+    //soundurl : 'http://soundbible.com/mp3/analog-watch-alarm_daniel-simion.mp3',
+    audio: new Audio('http://soundbible.com/mp3/analog-watch-alarm_daniel-simion.mp3'),
+    horarios: [{id:1, horario:'09:00', estado: true}, {id:2, horario:'12:00', estado: true}, {id:3, horario:'16:00', estado: false}],
+    dialogAlertKey: 1,
+    dialogAlert: false,
   }),
+  methods: {
+    playSound () {
+      this.audio.play();
+      this.dialogAlert = true;
+    },
+  }
 }
 </script>
 
