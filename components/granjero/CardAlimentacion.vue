@@ -1,47 +1,47 @@
 <template>
   <v-card height="326px" width="370px" rounded>
     <v-card-title style="background: #FFEAB5">
-      Familia 1
+      {{ this.familia.nombreFamilia }}
     </v-card-title>
     <v-card-text style="padding: 10px; height: 210px; justify-content: center">
-      <v-row v-for="(horario,index) in horarios" :key="index" style="margin: 0px; display: flex; align-content: center">
+      <v-row v-for="(horario,index) in this.familia.horarios" :key="index" style="margin: 0; display: flex; align-content: center">
         <v-col style="padding: 5px; font-weight: bold;" md="7">
           Horario de alimentación {{index + 1}}
         </v-col>
         <v-col style="padding: 5px; font-weight: bold;">
           {{horario.horario}}
         </v-col>
-        <v-col style="padding: 0px">
+        <v-col style="padding: 0">
           <v-checkbox
             v-model="horario.estado"
             color="primary"
             hide-details
-            style="margin: 0px;"
+            style="margin: 0;"
           ></v-checkbox>
         </v-col>
       </v-row>
-      <v-row style="margin: 0px;">
+      <v-row style="margin: 0;">
         <v-col style="padding: 5px; font-weight: bold;" md="7">
-          Numero de alpacas
+          Numero de animales
         </v-col>
         <v-col style="padding: 5px; font-weight: bold;">
-          dato
+          {{ this.familia.cantidadAnimales }}
         </v-col>
       </v-row>
-      <v-row style="margin: 0px;">
+      <v-row style="margin: 0;">
         <v-col style="padding: 5px; font-weight: bold;" md="7">
           Tipo de alimento
         </v-col>
         <v-col style="padding: 5px; font-weight: bold;">
-          dato
+          {{ this.familia.tipoAlimento }}
         </v-col>
       </v-row>
-      <v-row style="margin: 0px;">
+      <v-row style="margin: 0;">
         <v-col style="padding: 5px; font-weight: bold;" md="7">
-          Cantidad de alimento
+          Cantidad de alimento (kg)
         </v-col>
         <v-col style="padding: 5px; font-weight: bold;">
-          dato
+          {{ this.familia.cantidadAlimento }}
         </v-col>
       </v-row>
     </v-card-text>
@@ -66,6 +66,9 @@
 <script>
 export default {
   name: "CardAlimentacion",
+  props: {
+    familia: {},
+  },
   data: () => ({
     horarios: [{id:1, horario:'09:00', estado: true}, {id:2, horario:'12:00', estado: true}, {id:3, horario:'16:00', estado: false}]
   }),
