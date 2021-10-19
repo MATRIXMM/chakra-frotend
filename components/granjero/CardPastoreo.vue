@@ -1,31 +1,35 @@
 <template>
   <v-card height="236px" width="370px" rounded>
-    <v-card-title style="background: #FFEAB5">
-      Familia 1
+    <Alerta :key="dialogAlertKey" v-model="dialogAlert" message="Alpacas: En 5 minutos se tiene programado el pastoreo de la familia 1" />
+    <v-card-title style="background: #FFEAB5; display: flex; justify-content: space-between">
+      {{ this.familia.nombreFamilia }}
+      <v-icon large @click="playSound">
+        mdi-bell
+      </v-icon>
     </v-card-title>
     <v-card-text style="padding: 10px; height: 120px; justify-content: center">
-      <v-row style="margin: 0px;">
+      <v-row style="margin: 0;">
         <v-col style="padding: 5px; font-weight: bold;" md="7">
-          Horario de Salida
+          Horario de Salida:
         </v-col>
         <v-col style="padding: 5px; font-weight: bold;">
-          dato
+          {{this.familia.horarioSalida}}
         </v-col>
       </v-row>
-      <v-row style="margin: 0px;">
+      <v-row style="margin: 0;">
         <v-col style="padding: 5px; font-weight: bold;" md="7">
-          Numero de animales
+          Numero de animales:
         </v-col>
         <v-col style="padding: 5px; font-weight: bold;">
-          dato
+          {{ this.familia.cantidadAnimales }}
         </v-col>
       </v-row>
-      <v-row style="margin: 0px;">
+      <v-row style="margin: 0;">
         <v-col style="padding: 5px; font-weight: bold;" md="7">
-          Tiempo de pastoreo
+          Tiempo de pastoreo (min):
         </v-col>
         <v-col style="padding: 5px; font-weight: bold;">
-          dato
+          {{ this.familia.tiempoPastoreo }}
         </v-col>
       </v-row>
     </v-card-text>
@@ -56,15 +60,30 @@
 </template>
 
 <script>
+import Alerta from "@/components/confirmacion/Alerta";
+
 export default {
   name: "CardPastoreo",
+  props: {
+    familia: {}
+  },
+  components: {
+    Alerta: Alerta,
+  },
   data: () => ({
     estadoRealizado: false,
+    audio: new Audio('http://soundbible.com/mp3/analog-watch-alarm_daniel-simion.mp3'),
+    dialogAlertKey: 1,
+    dialogAlert: false,
   }),
   methods: {
     registrarRealizacion(){
       console.log('Entro');
-    }
+    },
+    playSound () {
+      this.audio.play();
+      this.dialogAlert = true;
+    },
   }
 }
 </script>

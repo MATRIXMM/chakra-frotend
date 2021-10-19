@@ -4,14 +4,14 @@
       Pastoreo de familias de {{this.animal.name}}
     </h2>
     <VDivider />
-    <v-row style="display: flex; margin: 0px; margin-top: 10px; align-items: center">
-      <v-col md="10" style="padding: 0px">
+    <v-row style="display: flex; margin: 10px 0 0;align-items: center">
+      <v-col md="10" style="padding: 0">
         {{ formatDay(currentDay) }}
       </v-col>
-      <v-col md="1" style="padding: 0px">
+      <v-col md="1" style="padding: 0">
         Periodo:
       </v-col>
-      <v-col md="1" style="padding: 0px">
+      <v-col md="1" style="padding: 0">
         <v-select
           v-model="periodoActual"
           :items="periodos"
@@ -24,7 +24,7 @@
       EN CAMPO
     </v-chip>
     <v-container style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center">
-      <CardPastoreo v-for="i in 2" :key="i" style="margin: 20px; position: relative" />
+      <CardPastoreo v-for="(i,index) in familias.length" :key="index" style="margin: 20px; position: relative" :familia="familias[index]"/>
     </v-container>
   </div>
 </template>
@@ -42,6 +42,29 @@ export default {
     currentDay: new Date(),
     periodos: ['2021-2'],
     periodoActual: '2021-2',
+    familias: [
+      {
+        id: 1,
+        nombreFamilia: 'Familia 1',
+        horarioSalida: '12:30',
+        cantidadAnimales: 14,
+        tiempoPastoreo: 120,
+      },
+      {
+        id: 2,
+        nombreFamilia: 'Familia 2',
+        horarioSalida: '15:30',
+        cantidadAnimales: 10,
+        tiempoPastoreo: 100,
+      },
+      {
+        id: 3,
+        nombreFamilia: 'Familia 3',
+        horarioSalida: '15:30',
+        cantidadAnimales: 15,
+        tiempoPastoreo: 90,
+      }
+    ]
   }),
   methods: {
     formatDay (date) {

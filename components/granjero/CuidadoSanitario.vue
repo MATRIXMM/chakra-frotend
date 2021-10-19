@@ -27,11 +27,11 @@
         :dense="$vuetify.breakpoint.smAndDown"
       >
         <v-timeline-item
-          v-for="i in 3"
-          :key = "i"
+          v-for="(evento,index) in eventos"
+          :key = "index"
           fill-dot
         >
-          <CardCuidadoSanitario />
+          <CardCuidadoSanitario :evento="evento"/>
         </v-timeline-item>
       </v-timeline>
     </v-container>
@@ -51,6 +51,30 @@ export default {
     currentDay: new Date(),
     periodos: ['2021-2'],
     periodoActual: '2021-2',
+    eventos: [
+      {
+        id: 1,
+        evento: 'Vacunación 1',
+        nombreFamilia: 'Familia 1',
+        estado:'Realizado',
+        fecha:'2021/05/06'
+      },
+      {
+        id: 2,
+        evento: 'Curación de la piel',
+        nombreFamilia: 'Familia 2',
+        nombreAnimal: 'Pedro',
+        estado:'No realizado',
+        fecha:'2021/10/20'
+      },
+      {
+        id: 3,
+        evento: 'Vacunación 2',
+        nombreFamilia: 'Familia 2',
+        estado:'No realizado',
+        fecha:'2021/10/17'
+      }
+    ],
   }),
   methods: {
     formatDay (date) {

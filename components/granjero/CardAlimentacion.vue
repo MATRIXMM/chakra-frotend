@@ -81,7 +81,6 @@ export default {
   data: () => ({
     //soundurl : 'http://soundbible.com/mp3/analog-watch-alarm_daniel-simion.mp3',
     audio: new Audio('http://soundbible.com/mp3/analog-watch-alarm_daniel-simion.mp3'),
-    horarios: [{id:1, horario:'09:00', estado: true}, {id:2, horario:'12:00', estado: true}, {id:3, horario:'16:00', estado: false}],
     dialogAlertKey: 1,
     dialogAlert: false,
   }),
