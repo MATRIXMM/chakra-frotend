@@ -1,15 +1,15 @@
 <template>
   <div style="padding: 20px">
-    <v-row style="display: flex; margin: 0px 0px 5px;align-items: center">
+    <v-row style="display: flex; margin: 0 0 5px;align-items: center">
       <v-col md="10" style="padding: 0">
         <h2>
           Seguimiento de actividades de cuidado sanitario de {{this.animal.name}}
         </h2>
       </v-col>
-      <v-col md="1" style="padding: 0px">
+      <v-col md="1" style="padding: 0">
         Periodo:
       </v-col>
-      <v-col md="1" style="padding: 0px">
+      <v-col md="1" style="padding: 0">
         <v-select
           v-model="periodoActual"
           :items="periodos"
@@ -19,29 +19,20 @@
       </v-col>
     </v-row>
     <VDivider />
-    <v-row style="display: flex; margin: 10px 0px 0px;align-items: center">
-      <v-col md="2" style="padding: 0px">
-        Seleccione el año:
-      </v-col>
-      <v-col md="2" style="padding: 0px">
-        <v-select
-          v-model="periodoActual"
-          :items="periodos"
-          solo
-          hide-details
-        ></v-select>
-      </v-col>
-      <v-col md="1">
-      </v-col>
-      <v-col md="2" style="padding: 0px; display: flex; justify-content: initial">
+    <v-row style="display: flex; margin: 10px 0 0;align-items: center">
+      <v-col md="2" style="padding: 0; display: flex; justify-content: initial">
         Seleccione la familia:
       </v-col>
-      <v-col md="2" style="padding: 0px">
+      <v-col md="2" style="padding: 0">
         <v-select
-          v-model="periodoActual"
-          :items="periodos"
-          solo
+          v-model="familiaSeleccionada"
+          :items="familias"
+          item-text="nombreFamilia"
+          item-value="id"
           hide-details
+          solo
+          @change="changeFamily()"
+          return-object
         ></v-select>
       </v-col>
     </v-row>
@@ -58,11 +49,37 @@
         <v-spacer></v-spacer>
       </v-card-title>
       <v-data-table
-        v-if="incidencias"
+        v-if="registroCuidadoSanitario"
         :headers="headers"
-        :items="incidencias"
+        :items="registroCuidadoSanitario"
         :search="search"
       >
+        <template v-slot:item.estado="{ item }">
+          <v-icon
+            v-if="item.estadoCuidadoSanitario"
+            color="primary"
+          >
+            mdi-check-circle
+          </v-icon>
+          <v-icon
+            v-else
+            color="red"
+          >
+            mdi-close-circle
+          </v-icon>
+        </template>
+        <template v-slot:item.observacion="{ item }">
+          <span
+            v-if="item.estadoCuidadoSanitario"
+          >
+            El cuidado sanitario fue realizado con satisfacción
+          </span>
+          <span
+            v-else
+          >
+            El cuidado sanitario no ha sido realizado
+          </span>
+        </template>
       </v-data-table>
     </v-card>
   </div>
@@ -86,37 +103,111 @@ export default {
     },
     headers: [
       {
-        text: 'Nombre',
-        align: 'start',
+        text: 'Familia',
+        align: 'center',
         sortable: false,
-        value: 'nombreAnimal',
+        value: 'nombreFamilia',
       },
-      { text: 'Familia', value: 'nombreFamilia' },
-      { text: 'Fecha de registro', value: 'fechaRegistro' },
-      { text: 'Gravedad', value: 'gravedad' },
-      { text: 'Detalle de observación', value: 'detalleObservacion' },
+      { text: 'Evento', value: 'nombreEvento', align: 'center' },
+      { text: 'Día de evaluación', value: 'diaEvaluacion', align: 'center' },
+      { text: 'Estado de alimentación', value: 'estado', align: 'center' },
+      { text: 'Detalle de observación', value: 'observacion', align: 'start' },
     ],
-    incidencias: [
+    registroCuidadoSanitario: [
       {
-        nombreAnimal: 'Perico',
         nombreFamilia: 'Familia 1',
-        fechaRegistro: '2021/05/06',
-        gravedad: 'Alta',
-        detalleObservacion: 'Contagio de una enfermedad de la piel'
+        nombreEvento: 'Vacunacion 1',
+        diaEvaluacion: '2021/07/06',
+        estadoCuidadoSanitario: true,
       },
       {
-        nombreAnimal: 'Pedro',
-        nombreFamilia: 'Familia 2',
-        fechaRegistro: '2021/06/06',
-        gravedad: 'Baja',
-        detalleObservacion: 'Ingesta de un alimento suministrado incorrectamente'
+        nombreFamilia: 'Familia 1',
+        nombreEvento: 'Esquila programada',
+        diaEvaluacion: '2021/09/16',
+        estadoCuidadoSanitario: false,
+      },
+      {
+        nombreFamilia: 'Familia 1',
+        nombreEvento: 'Vacunacion 3',
+        diaEvaluacion: '2021/12/21',
+        estadoCuidadoSanitario: false,
       }
-    ]
+    ],
+    familias: [
+      {
+        id: 1,
+        nombreFamilia: 'Familia 1'
+      },
+      {
+        id: 2,
+        nombreFamilia: 'Familia 2'
+      },
+      {
+        id: 3,
+        nombreFamilia: 'Familia 3'
+      }
+    ],
+    familiaSeleccionada: {id: 1, nombreFamilia: 'Familia 1'}
   }),
   computed: {
     ...mapState({
       animal: state => state.animal,
     }),
+  },
+  methods: {
+    changeFamily() {
+      console.log("Familia seleccionada", this.familiaSeleccionada.nombreFamilia);
+      if (this.familiaSeleccionada.nombreFamilia === 'Familia 2'){
+        this.registroCuidadoSanitario = [
+          {
+            nombreFamilia: 'Familia 2',
+            nombreEvento: 'Vacunacion 1',
+            diaEvaluacion: '2021/08/01',
+            estadoCuidadoSanitario: true,
+          },
+          {
+            nombreFamilia: 'Familia 2',
+            nombreEvento: 'Vacunacion 2',
+            diaEvaluacion: '2021/08/02',
+            estadoCuidadoSanitario: true,
+          },
+          {
+            nombreFamilia: 'Familia 2',
+            nombreEvento: 'Vacunacion 3',
+            diaEvaluacion: '2021/08/03',
+            estadoCuidadoSanitario: true,
+          },
+        ];
+      }
+      if (this.familiaSeleccionada.nombreFamilia === 'Familia 1'){
+        this.registroCuidadoSanitario = [
+          {
+            nombreFamilia: 'Familia 1',
+            nombreEvento: 'Vacunacion 1',
+            diaEvaluacion: '2021/08/01',
+            estadoCuidadoSanitario: true,
+          },
+          {
+            nombreFamilia: 'Familia 1',
+            nombreEvento: 'Vacunacion 2',
+            diaEvaluacion: '2021/08/02',
+            estadoCuidadoSanitario: true,
+          },
+          {
+            nombreFamilia: 'Familia 1',
+            nombreEvento: 'Vacunacion 3',
+            diaEvaluacion: '2021/08/03',
+            estadoCuidadoSanitario: false,
+          },
+          {
+            nombreFamilia: 'Familia 1',
+            nombreEvento: 'Esquila programada',
+            diaEvaluacion: '2021/08/04',
+            estadoCuidadoSanitario: false,
+          }
+        ];
+      }
+    }
   },
 }
 </script>

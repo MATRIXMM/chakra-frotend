@@ -3,15 +3,20 @@
     <h2>
       Historial de incidencias registradas de {{this.animal.name}} mensuales
     </h2>
+    <v-btn
+      @click.prevent="playSound()"
+    >
+      ALARMA
+    </v-btn>
     <VDivider />
-    <v-row style="display: flex; margin: 0px; margin-top: 10px; align-items: center">
-      <v-col md="10" style="padding: 0px">
+    <v-row style="display: flex; margin: 0; margin-top: 10px; align-items: center">
+      <v-col md="10" style="padding: 0">
         {{ formatDay(currentDay) }}
       </v-col>
-      <v-col md="1" style="padding: 0px">
+      <v-col md="1" style="padding: 0">
         Periodo:
       </v-col>
-      <v-col md="1" style="padding: 0px">
+      <v-col md="1" style="padding: 0">
         <v-select
           v-model="periodoActual"
           :items="periodos"
@@ -51,6 +56,7 @@ export default {
   name: "index",
   layout: 'main',
   data: () => ({
+    soundurl : 'http://soundbible.com/mp3/analog-watch-alarm_daniel-simion.mp3',
     currentDay: new Date(),
     periodos: ['2021-2'],
     periodoActual: '2021-2',
@@ -90,6 +96,10 @@ export default {
     ]
   }),
   methods: {
+    playSound () {
+      const audio = new Audio(this.soundurl);
+      audio.play();
+    },
     formatDay (date) {
       let diaSemana = [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
       let mes = ['Enero', 'Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre'];
