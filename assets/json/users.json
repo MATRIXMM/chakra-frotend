@@ -23,6 +23,11 @@
       "title": "Granjero",
       "options": [
         {
+          "title": "Monitoreo",
+          "icon": "mdi-magnify",
+          "to": "/granjero/monitoreo"
+        },
+        {
           "title": "Inicio",
           "icon": "mdi-home",
           "to": "/granjero"
@@ -31,11 +36,6 @@
           "title": "Crianza",
           "icon": "mdi-bell-alert",
           "to": "/granjero/crianza"
-        },
-        {
-          "title": "Monitoreo",
-          "icon": "mdi-magnify",
-          "to": "/granjero/monitoreo"
         }
       ]
     },
