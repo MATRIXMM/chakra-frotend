@@ -107,7 +107,7 @@
           color="primary"
           style="padding:15px"
           rounded
-          @click="$emit('input')"
+          @click="registrarIncidencia"
         >
           REGISTRAR
         </v-btn>
@@ -160,6 +160,19 @@ export default {
     familiaSeleccionada: {id: 1, nombreFamilia: 'Familia 1' },
     gravedadSeleccionada: {id: 1, gravedad: 'Baja' },
   }),
+  methods: {
+    registrarIncidencia(){
+      const data = {
+        nombreAnimal: this.nombreAnimal,
+        nombreFamilia: this.familiaSeleccionada.nombreFamilia,
+        fechaRegistro: '2021/10/19',
+        gravedad: this.gravedadSeleccionada.gravedad,
+        detalleObservacion: this.observacion,
+      };
+      this.$emit('register', {data: data})
+    },
+  },
+
 }
 </script>
 

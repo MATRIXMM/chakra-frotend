@@ -1,6 +1,6 @@
 <template>
   <div style="padding: 20px">
-    <RegistrarIncidencia :key="dialogRegisterKey" v-model="dialogRegister" />
+    <RegistrarIncidencia :key="dialogRegisterKey" v-model="dialogRegister" @register="registerIncident"/>
     <h2>
       Historial de incidencias registradas de {{this.animal.name}}
     </h2>
@@ -100,6 +100,11 @@ export default {
     ]
   }),
   methods: {
+    registerIncident({data}){
+      this.incidencias.push(data);
+      this.dialogRegister = false;
+      this.dialogRegisterKey += 1;
+    },
     registrarRealizacion(){
       console.log('Entro');
     },
