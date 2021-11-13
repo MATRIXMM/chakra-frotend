@@ -1,12 +1,18 @@
 <template>
   <div style="padding: 20px">
-    <h2>
-      Configuracion de reglas de crianza para {{this.nombreAnimal}} registradas
+    <h2 v-if="this.animal.name === 'Ovinos' ">
+      Familia de Ovinos registrados
+    </h2>
+    <h2 v-else>
+      Familia de Alpacas registradas
     </h2>
     <VDivider />
     <v-row style="display: flex; margin: 10px 0 0;align-items: center">
-      <v-col md="10" style="padding: 0">
-        Seleccione la familia que desea configurar las reglas de crianza
+      <v-col v-if="this.animal.name === 'Ovinos'" md="10" style="padding: 0">
+        Listado de Ovinos registrados por familias
+      </v-col>
+      <v-col v-else md="10" style="padding: 0">
+        Listado de Alpacas registradas por familias
       </v-col>
       <v-col md="1" style="padding: 0">
         Periodo:
@@ -38,40 +44,20 @@
         :headers="headers"
         :items="familias"
         :search="search"
-        @click:row="accederDetalleRow"
       >
-        <template v-slot:item.validacion="{ item }">
-          <v-row v-show="item.validacion" style="display: flex; align-items: center">
-            Configurada
-            <v-icon color="primary">
-              {{icons.mdiCheckboxMarkedCircle}}
-            </v-icon>
-          </v-row>
-          <v-row v-show="!item.validacion" style="display: flex; align-items: center; margin: 0">
-            Pendiente
-            <v-icon color="#FFDA2D">
-              {{icons.mdiAlert}}
-            </v-icon>
-          </v-row>
-        </template>
       </v-data-table>
     </v-card>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import {mdiAlert, mdiCheckboxMarkedCircle} from "@mdi/js";
 import {mapState, mapActions} from "vuex";
-import { mdiCheckboxMarkedCircle, mdiAlert  } from '@mdi/js';
 
 export default {
-  name: "FamiliasRegistradas",
-  props: {
-    nombreAnimal: String,
-  },
+  layout: 'main',
+  name: "index",
   data: () => ({
-    keyDataTable: 1,
-    validation: {},
     periodos: ['2021-1','2021-2'],
     periodoActual: '2021-1',
     search: '',
@@ -87,8 +73,8 @@ export default {
         value: 'nombre',
       },
       { text: 'Número de animales', value: 'cantidad' },
+      { text: 'Anmimales en seguimiento', value: 'fechaRegistro' },
       { text: 'Característica', value: 'caracteristica' },
-      { text: 'Estado de configuración', value: 'validacion' },
     ],
     familia: [
       {
@@ -96,52 +82,47 @@ export default {
         "nombreFamilia": "Familia 1",
         "cantidadFamilia": 14,
         "caracteristica": "Caracteristica A",
-        "estadoAlimentacion": true,
-        "estadoPastoreo": true,
-        "estadoEventoSanitario": true
+        "cantidadEventosRealizados": 1,
+        "cantidadEventosTotal": 2,
+        "cantidadSeguimiento": 5,
       },
       {
         "idFamilia": 2,
         "nombreFamilia": "Familia 2",
-        "cantidadFamilia": 10,
+        "cantidadFamilia": 14,
         "caracteristica": "Caracteristica B",
-        "estadoAlimentacion": false,
-        "estadoPastoreo": false,
-        "estadoEventoSanitario": false
+        "cantidadEventosRealizados": 1,
+        "cantidadEventosTotal": 2,
+        "cantidadSeguimiento": 2,
       },
       {
         "idFamilia": 3,
         "nombreFamilia": "Familia 3",
-        "cantidadFamilia": 13,
+        "cantidadFamilia": 14,
         "caracteristica": "Caracteristica C",
-        "estadoAlimentacion": false,
-        "estadoPastoreo": false,
-        "estadoEventoSanitario": false
+        "cantidadEventosRealizados": 1,
+        "cantidadEventosTotal": 2,
+        "cantidadSeguimiento": 0,
       }
     ],
   }),
   methods: {
     changePeriod(){
       this.getFamilias({periodo: this.periodoActual, tipo:this.animal.name});
-      this.setPeriodo({periodo: this.periodoActual});
-    },
-    accederDetalleRow(event){
-      this.$router.push(`configuracion/registradas/${event.idFamilia}`);
     },
     ...mapActions({
       getFamilias: 'admin/monitoreo/getFamilias',
-      setPeriodo: 'veterinario/pastoreo/setPeriod'
     }),
-  },
-  async mounted() {
-    await this.getFamilias({periodo: this.periodoActual, tipo:this.animal.name});
-    this.setPeriodo({periodo: this.periodoActual});
   },
   computed: {
     ...mapState({
       animal: state => state.animal,
       familias: state => state.admin.monitoreo.familias,
     }),
+  },
+  async mounted() {
+    await this.getFamilias({periodo: this.periodoActual, tipo:this.animal.name});
+    console.log('imprimer resultado familias', this.familias);
   },
 }
 </script>

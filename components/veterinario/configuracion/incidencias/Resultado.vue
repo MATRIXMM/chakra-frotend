@@ -1,5 +1,6 @@
 <template>
   <div style="margin: 10px">
+    <Confirmacion :key="dialogConfirmacionKey" v-model="dialogConfirmacion" :funcion="infoRegistrada" message="¿Está seguro que desea registrar el resultado de este animal?" />
     <v-chip
       color= #1976D2
       text-color="black"
@@ -12,7 +13,7 @@
     </h5>
     <v-card
       elevation="2"
-      width="600px"
+      width="700px"
     >
       <v-card-title
         style="display: flex; justify-content: right;background: #FFEAB5"
@@ -21,7 +22,7 @@
           v-if="!registrado"
           rounded
           color="primary"
-          @click="registrarResultado"
+          @click="dialogConfirmacion = true"
         >
           Guardar
         </v-btn>
@@ -52,11 +53,16 @@ export default {
   data: () => ({
     resultado: null,
     registrado: false,
+    dialogConfirmacionKey: 150,
+    dialogConfirmacion: false,
   }),
   methods: {
     registrarResultado(){
       console.log("Este es el resultado registrado", this.resultado);
     },
+    infoRegistrada() {
+      this.dialogConfirmacion = false;
+    }
   }
 }
 </script>

@@ -19,7 +19,7 @@
     </h6>
     <v-card
       elevation="2"
-      width="600px"
+      width="700px"
     >
       <v-card-title
         style="display: flex; justify-content: right;background: #FFEAB5"
@@ -46,8 +46,8 @@
       <v-card-text style="display: flex; justify-content: center; background: #FFEAB5">
         <div>
           <v-row style="align-items: center;margin: 1px">
-            <v-col md="8"><h3>Alimento:</h3></v-col>
-            <v-col md="4" no-gutters>
+            <v-col md="5"><h3>Alimento:</h3></v-col>
+            <v-col md="7" no-gutters>
               <v-text-field
                 label="Alimento"
                 v-model="alimento"
@@ -59,8 +59,8 @@
             </v-col>
           </v-row>
           <v-row style="align-items: center;margin: 1px">
-            <v-col md="8"><h3>Cantidad de alimento (kg):</h3></v-col>
-            <v-col md="4" no-gutters>
+            <v-col md="5"><h3>Cantidad de alimento (kg):</h3></v-col>
+            <v-col md="7" no-gutters>
               <v-text-field
                 label="Cantidad de alimento"
                 v-model="cantidadAlimento"
@@ -72,8 +72,8 @@
             </v-col>
           </v-row>
           <v-row style="align-items: center;margin: 1px">
-            <v-col md="8"><h3>Días de seguimiento:</h3></v-col>
-            <v-col md="4" no-gutters>
+            <v-col md="5"><h3>Días de seguimiento:</h3></v-col>
+            <v-col md="7" no-gutters>
               <v-text-field
                 label="Días de seguimiento"
                 v-model="diasSeguimiento"
@@ -85,8 +85,8 @@
             </v-col>
           </v-row>
           <v-row style="align-items: center;margin: 1px">
-            <v-col md="8"><h3>Horario de alimentación:</h3></v-col>
-            <v-col md="4" no-gutters>
+            <v-col md="5"><h3>Horario de alimentación:</h3></v-col>
+            <v-col md="7" no-gutters>
               <v-menu
                 ref="menu"
                 v-model="menu2"
@@ -122,9 +122,9 @@
             </v-col>
           </v-row>
           <v-row style="display: flex; justify-content: right; margin: 1px">
-            <v-col md="8">
+            <v-col md="5">
             </v-col>
-            <v-col md="4" style="justify-content: right; display: flex">
+            <v-col md="7" style="justify-content: right; display: flex">
               <v-btn
                 color="primary"
                 rounded
@@ -137,14 +137,14 @@
               </v-btn>
             </v-col>
           </v-row>
-          <v-card-actions>
-            <v-chip dense v-for="(horario,index) in horasAlimentacion" :key="index" style="margin: 5px; background: #DEFFA1">
-              <h3>{{horario}}</h3>
+          <div style="margin: 1px; padding: 10px; display: table-cell">
+            <v-chip dense v-for="(horario,index) in horasAlimentacion" :key="index" style="margin: 5px; background: #DEFFA1; display: inline-block">
+              <h3>{{(horario.horario).substr(11,10)}}</h3>
               <template>
-                <v-icon style="margin-left: 5px" :disabled="registrado" @click="eliminarHorario(index)">{{icons.mdiCloseCircle}}</v-icon>
+                <v-icon style="margin-left: 5px" :disabled="registrado" @click="">{{icons.mdiCloseCircle}}</v-icon>
               </template>
             </v-chip>
-          </v-card-actions>
+          </div>
         </div>
       </v-card-text>
     </v-card>
@@ -152,6 +152,7 @@
 </template>
 
 <script>
+import {mapState, mapActions} from "vuex";
 import { mdiCloseCircle, mdiCheckboxMarkedCircle, mdiAlert } from '@mdi/js';
 import Confirmacion from "@/components/confirmacion/Confirmacion";
 
@@ -185,25 +186,35 @@ export default {
   }),
   methods: {
     registrarAlimentacion(){
-      console.log(this.$route.params.id)
-      console.log('Este es un alimento', this.alimento);
-      console.log('Este es cantidad de alimento', this.cantidadAlimento);
-      console.log('Este es los días de seguimiento', this.diasSeguimiento);
-      console.log('Este es las horas de alimentacion', this.horasAlimentacion);
-      this.$emit('getDays', { diasSeguimiento: this.diasSeguimiento })
       if (this.actualizar) {
         console.log("este es un registro de actualizacion");
         this.actualizar = false;
       } else {
         console.log("Este es un registro nuevo");
+        const payload = {
+          idFamilia: this.incidenteSeleccionado.idFamilia,
+          idIncidencia: this.$route.params.id,
+          tipo: this.alimento,
+          cantidad: this.cantidadAlimento,
+          diasSeguimiento: this.diasSeguimiento,
+          estado: false,
+          horarios : this.horasAlimentacion,
+          nombreAnimal: this.incidenteSeleccionado.nombreAnimal,
+          fechaRegistro: this.incidenteSeleccionado.fechaRegistro,
+          gravedadIncidencia: this.incidenteSeleccionado.gravedadIncidencia,
+        };
+        this.registerAlimentacionIncidente({payload: payload}).then(async () => {
+          await this.getAlimentacionIncidente({idIncidente: this.$route.params.id});
+        });
         this.registrado = true;
       }
       this.dialogConfirmacion = false;
     },
     agregarHorario() {
       if (this.time !== null){
-        console.log('Nuevo horario', this.time);
-        this.horasAlimentacion.push(this.time);
+        const current = (new Date()).toISOString("yyyy-MM-dd'T'HH:mm:ss").split('T',1);
+        const horario = current[0]+'T'+this.time+':00';
+        this.horasAlimentacion.push({horario: horario, estado: false});
         this.time = null;
       }else{
         alert('Agregue un horario disponible');
@@ -216,22 +227,36 @@ export default {
     actualizarAlimentacion(){
       this.registrado = !this.registrado;
       this.actualizar = true;
-    }
+    },
+    ...mapActions({
+      getValidarAlimentacionIncidente: 'veterinario/validacion/getValidarAlimentacionIncidente',
+      getAlimentacionIncidente: 'veterinario/alimentacion/getAlimentacionIncidente',
+      registerAlimentacionIncidente: 'veterinario/alimentacion/registerAlimentacionIncidente'
+    }),
+  },
+  computed: {
+    ...mapState({
+      animal: state => state.animal,
+      validarAlimentacionIncidente: state => state.veterinario.validacion.validarAlimentacionIncidente,
+      alimentacionIncidente: state => state.veterinario.alimentacion.alimentacionIncidente,
+      incidenteSeleccionado: state => state.admin.sanitario.incidenteSeleccionado,
+    }),
   },
   mounted() {
     console.log('El valor del id del props es: ', this.idIncidente);
-    let data = null;
-    if (this.idIncidente === '2') {
-      console.log('Es la primera vez que se debe registrar');
-      console.log('Aqui ya se encuentra registrada la información');
-      this.alimento = 'Alimento A';
-      this.cantidadAlimento = '12';
-      this.diasSeguimiento = 15;
-      this.horasAlimentacion = ['12:30', '13:20', '15:22'];
-      this.registrado = true;
-      this.$emit('getDays', { diasSeguimiento: this.diasSeguimiento })
-
-    }
+    this.getValidarAlimentacionIncidente({idIncidencia: this.$route.params.id }).then( async () => {
+      if (this.validarAlimentacionIncidente) {
+        this.registrado = true;
+        await this.getAlimentacionIncidente({idIncidente: this.$route.params.id});
+        this.alimento = this.alimentacionIncidente.tipo;
+        this.cantidadAlimento = this.alimentacionIncidente.cantidad;
+        this.diasSeguimiento = this.alimentacionIncidente.diasSeguimiento;
+        this.horasAlimentacion = this.alimentacionIncidente.horarios;
+      } else {
+        console.log('Alimentacion no validada')
+      }
+    });
+    console.log('Incidente seleccionado',this.incidenteSeleccionado);
 
   }
 }

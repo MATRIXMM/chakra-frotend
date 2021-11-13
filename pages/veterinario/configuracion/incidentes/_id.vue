@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div :key="keyLinear" v-if="this.diasSeguimiento > 0" style="margin: 10px; margin-bottom: 30px">
+    <h1>
+      Configuración > Familia de {{ this.animal.name }} registrados > {{this.incidenteSeleccionado.nombreAnimal}}
+    </h1>
+    <div :key="keyLinear" v-if="this.diasSeguimiento > 0" style="margin: 10px 10px 30px;">
       <p>Periodo de seguimiento disponible por {{this.diasSeguimiento}} días</p>
       <v-progress-linear
         v-model="porcentaje"
@@ -26,7 +29,7 @@
     <div style="margin: 10px">
       <v-card
         elevation="2"
-        width="600px"
+        width="700px"
       >
         <v-card-title style="background: #FFEAB5">
           <div
@@ -34,7 +37,7 @@
             hide-details
             disabled
           >
-            {{nombreAnimal}}: {{observacion}}
+            {{this.incidenteSeleccionado.nombreAnimal}}: {{this.incidenteSeleccionado.observacion}}
           </div>
         </v-card-title>
       </v-card>
@@ -49,6 +52,7 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
 import Alimentacion from "@/components/veterinario/configuracion/incidencias/Alimentacion";
 import CuidadoSanitario from "@/components/veterinario/configuracion/incidencias/CuidadoSanitario";
 import Resultado from "@/components/veterinario/configuracion/incidencias/Resultado";
@@ -73,7 +77,14 @@ export default {
       this.diasSeguimiento = diasSeguimiento;
       this.keyLinear += 1;
     },
-  }
+  },
+  computed: {
+    ...mapState({
+      animal: state => state.animal,
+      periodo: state => state.veterinario.pastoreo.periodo,
+      incidenteSeleccionado: state => state.admin.sanitario.incidenteSeleccionado,
+    }),
+  },
 }
 </script>
 

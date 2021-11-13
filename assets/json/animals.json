@@ -1,11 +1,11 @@
 {
   "animals": [
     {
-      "name": "ovinos",
+      "name": "Ovinos",
       "image": "/images/ovino.png"
     },
     {
-      "name": "alpacas",
+      "name": "Alpacas",
       "image": "/images/alpaca.png"
     }
   ]

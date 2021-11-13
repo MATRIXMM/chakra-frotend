@@ -16,14 +16,17 @@
 
     <v-tabs-items v-model="tab" style="margin-top: 20px">
       <v-tab-item
-        v-for="n in 2"
+        v-for="n in 3"
         :key="n"
       >
         <div v-if="n === 1" style="padding: 15px">
-          <FamiliasRegistradas :nombreAnimal="animal.name" />
+          <Alimentacion />
         </div>
         <div v-if="n === 2" style="padding: 15px">
-          <IncidentesRegistrados :nombreAnimal="animal.name" />
+          <Pastoreo />
+        </div>
+        <div v-if="n === 3" style="padding: 15px">
+          <CuidadoSanitario />
         </div>
       </v-tab-item>
     </v-tabs-items>
@@ -31,21 +34,22 @@
 </template>
 
 <script>
-
-import FamiliasRegistradas from "@/components/veterinario/configuracion/FamiliasRegistradas";
-import IncidentesRegistrados from "@/components/veterinario/configuracion/IncidentesRegistrados";
 import {mapState} from "vuex";
+import Alimentacion from "@/components/veterinario/seguimiento/Alimentacion";
+import Pastoreo from "@/components/veterinario/seguimiento/Pastoreo";
+import CuidadoSanitario from "@/components/veterinario/seguimiento/CuidadoSanitario";
 
 export default {
-  components: {
-    FamiliasRegistradas: FamiliasRegistradas,
-    IncidentesRegistrados: IncidentesRegistrados,
-  },
   name: "index",
-  layout: "main",
+  layout: 'main',
+  components: {
+    Alimentacion : Alimentacion,
+    Pastoreo: Pastoreo,
+    CuidadoSanitario: CuidadoSanitario,
+  },
   data: () => ({
     tab: null,
-    nameTabs: [],
+    nameTabs: ['ALIMENTACION', 'PASTOREO', 'CUIDADO SANITARIO'],
   }),
   computed: {
     ...mapState({
@@ -53,13 +57,9 @@ export default {
     }),
   },
   methods: {
-    getNameTabs(nombreAnimal) {
-      this.nameTabs.push(`familias de ${nombreAnimal} registradas`);
-      this.nameTabs.push(`incidentes de ${nombreAnimal} registradas`);
-    },
   },
   mounted() {
-    this.getNameTabs(this.animal.name);
+    console.log("El animal seleccionado es", this.animal.name);
   }
 }
 </script>

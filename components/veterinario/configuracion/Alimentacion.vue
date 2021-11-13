@@ -19,7 +19,7 @@
     </h5>
     <v-card
       elevation="2"
-      width="600px"
+      width="700px"
     >
       <v-card-title
         style="display: flex; justify-content: right;background: #FFEAB5"
@@ -46,8 +46,8 @@
       <v-card-text style="display: flex; justify-content: center; background: #FFEAB5">
         <div>
           <v-row style="align-items: center;margin: 1px">
-            <v-col md="8"><h3>Alimento:</h3></v-col>
-            <v-col md="4" no-gutters>
+            <v-col md="5"><h3>Alimento:</h3></v-col>
+            <v-col md="7" no-gutters>
               <v-text-field
                 label="Alimento"
                 v-model="alimento"
@@ -59,8 +59,8 @@
             </v-col>
           </v-row>
           <v-row style="align-items: center;margin: 1px">
-            <v-col md="8"><h3>Cantidad de alimento (kg):</h3></v-col>
-            <v-col md="4" no-gutters>
+            <v-col md="5"><h3>Cantidad de alimento (kg):</h3></v-col>
+            <v-col md="7" no-gutters>
               <v-text-field
                 label="Cantidad de alimento"
                 v-model="cantidadAlimento"
@@ -72,8 +72,8 @@
             </v-col>
           </v-row>
           <v-row style="align-items: center;margin: 1px">
-            <v-col md="8"><h3>Horario de alimentación:</h3></v-col>
-            <v-col md="4" no-gutters>
+            <v-col md="5"><h3>Horario de alimentación:</h3></v-col>
+            <v-col md="7" no-gutters>
               <v-menu
                 ref="menu"
                 v-model="menu2"
@@ -109,9 +109,9 @@
             </v-col>
           </v-row>
           <v-row style="display: flex; justify-content: right; margin: 1px">
-            <v-col md="8">
+            <v-col md="5">
             </v-col>
-            <v-col md="4" style="justify-content: right; display: flex">
+            <v-col md="7" style="justify-content: right; display: flex">
               <v-btn
                 color="primary"
                 rounded
@@ -124,14 +124,14 @@
               </v-btn>
             </v-col>
           </v-row>
-          <v-card-actions>
-            <v-chip dense v-for="(horario,index) in horasAlimentacion" :key="index" style="margin: 5px; background: #DEFFA1">
-              <h3>{{horario}}</h3>
+          <div style="margin: 1px; padding: 10px; display: table-cell">
+            <v-chip dense v-for="(horario,index) in horasAlimentacion" :key="index" style="margin: 5px; background: #DEFFA1; display: inline-block">
+              <h3>{{ (horario.horario).substr(11,10)}}</h3>
               <template>
-                <v-icon :disabled="registrado" style="margin-left: 5px" @click="eliminarHorario(index)">{{icons.mdiCloseCircle}}</v-icon>
+                <v-icon :disabled="registrado" style="margin-left: 5px" @click="">{{icons.mdiCloseCircle}}</v-icon>
               </template>
             </v-chip>
-          </v-card-actions>
+          </div>
         </div>
       </v-card-text>
     </v-card>
@@ -139,6 +139,7 @@
 </template>
 
 <script>
+import {mapState, mapActions} from "vuex";
 import { mdiCloseCircle, mdiCheckboxMarkedCircle, mdiAlert } from '@mdi/js';
 import Confirmacion from "@/components/confirmacion/Confirmacion";
 
@@ -171,24 +172,32 @@ export default {
   }),
   methods: {
     registrarAlimentacion(){
-      console.log(this.$route.params.id)
-      console.log('Este es un mensaje', this.alimento);
-      console.log('Este es otro mensaje', this.cantidadAlimento);
-      console.log('Este es otro mensaje', this.horasAlimentacion);
       if (this.actualizar) {
         console.log("este es un registro de actualizacion");
         this.actualizar = false;
       } else {
         console.log("Este es un registro nuevo");
+        const payload = {
+          idFamilia: this.$route.params.id,
+          tipo: this.alimento,
+          cantidad: this.cantidadAlimento,
+          estado: false,
+          horarios : this.horasAlimentacion,
+        }
+        this.registerAlimentacion({payload: payload}).then(async () => {
+          await this.getAlimentacionFamilia({idFamilia: this.$route.params.id})
+        });
         this.registrado = true;
       }
-      this.$emit('config', {value: this.registrado});
+      //this.$emit('config', {value: this.registrado});
       this.dialogConfirmacion = false;
     },
     agregarHorario() {
       if (this.time !== null){
-        console.log('Nuevo horario', this.time);
-        this.horasAlimentacion.push(this.time);
+        // const current = new Date();
+        const current = (new Date()).toISOString("yyyy-MM-dd'T'HH:mm:ss").split('T',1);
+        const horario = current[0]+'T'+this.time+':00';
+        this.horasAlimentacion.push({horario: horario, estado: false});
         this.time = null;
       }else{
         alert('Agregue un horario disponible');
@@ -201,16 +210,32 @@ export default {
     actualizarAlimentacion(){
       this.registrado = !this.registrado;
       this.actualizar = true;
-    }
+    },
+    ...mapActions({
+      getValidarAlimentacion: 'veterinario/validacion/getValidarAlimentacion',
+      getAlimentacionFamilia: 'veterinario/alimentacion/getAlimentacionFamilia',
+      registerAlimentacion: 'veterinario/alimentacion/registerAlimentacion'
+    }),
+  },
+  computed: {
+    ...mapState({
+      animal: state => state.animal,
+      validarAlimentacion: state => state.veterinario.validacion.validarAlimentacion,
+      alimentacionFamilia: state => state.veterinario.alimentacion.alimentacionFamilia,
+    }),
   },
   mounted() {
-    if (this.idIncidente === '1') {
-      this.alimento = 'Alimento A';
-      this.cantidadAlimento = '12';
-      this.horasAlimentacion = ['12:30', '13:20', '15:22'];
-      this.registrado = true;
-      this.$emit('config', {value: this.registrado})
-    }
+    this.getValidarAlimentacion({idFamilia: this.$route.params.id }).then( async () => {
+      if (this.validarAlimentacion) {
+        this.registrado = true;
+        await this.getAlimentacionFamilia({idFamilia: this.$route.params.id});
+        this.alimento = this.alimentacionFamilia.tipo;
+        this.cantidadAlimento = this.alimentacionFamilia.cantidad;
+        this.horasAlimentacion = this.alimentacionFamilia.horarios;
+      } else {
+        console.log('Alimentacion no validada')
+      }
+    });
   }
 }
 </script>

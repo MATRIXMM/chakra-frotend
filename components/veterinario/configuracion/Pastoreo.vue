@@ -19,7 +19,7 @@
     </h5>
     <v-card
       elevation="2"
-      width="600px"
+      width="700px"
     >
       <v-card-title
         style="display: flex; justify-content: right;background: #FFEAB5"
@@ -45,8 +45,8 @@
       <v-card-text style="display: flex; justify-content: center; background: #FFEAB5">
         <div>
           <v-row style="align-items: center;margin: 1px">
-            <v-col md="8"><h3>Tiempo de pastoreo (min):</h3></v-col>
-            <v-col md="4" no-gutters>
+            <v-col md="5"><h3>Tiempo de pastoreo (min):</h3></v-col>
+            <v-col md="7" no-gutters>
               <v-text-field
                 label="Tiempo"
                 v-model="tiempoPastoreo"
@@ -58,8 +58,8 @@
             </v-col>
           </v-row>
           <v-row style="align-items: center;margin: 1px">
-            <v-col md="8"><h3>Horario de pastoreo:</h3></v-col>
-            <v-col md="4" no-gutters>
+            <v-col md="5"><h3>Horario de pastoreo:</h3></v-col>
+            <v-col md="7" no-gutters>
               <v-menu
                 ref="menu"
                 v-model="menu2"
@@ -95,8 +95,8 @@
             </v-col>
           </v-row>
           <v-row style="align-items: center;margin: 1px">
-            <v-col md="8"><h3>Día de pastoreo:</h3></v-col>
-            <v-col md="4" no-gutters>
+            <v-col md="5"><h3>Día de pastoreo:</h3></v-col>
+            <v-col md="7" no-gutters>
               <v-select
                 label="Día"
                 solo
@@ -109,8 +109,8 @@
             </v-col>
           </v-row>
           <v-row style="display: flex; justify-content: right; margin: 1px">
-            <v-col md="8"></v-col>
-            <v-col md="4" style="justify-content: right; display: flex">
+            <v-col md="5"></v-col>
+            <v-col md="7" style="justify-content: right; display: flex">
               <v-btn
                 color="primary"
                 rounded
@@ -130,13 +130,13 @@
                   <h3>
                     {{horario.dia}}
                   </h3>
-                  <v-icon @click="eliminarHorario(index)" :disabled="registrado">{{icons.mdiCloseCircle}}</v-icon>
+                  <v-icon @click="" :disabled="registrado">{{icons.mdiCloseCircle}}</v-icon>
                 </v-row>
                 <v-row style="margin: 1px;">
                   Tiempo: {{horario.tiempo}} min
                 </v-row>
                 <v-row style="margin: 1px;">
-                  Salida: {{horario.horario}} hrs
+                  Salida: {{ (horario.horario).substr(11,10)}} hrs
                 </v-row>
               </template>
             </v-card>
@@ -148,6 +148,7 @@
 </template>
 
 <script>
+import {mapState, mapActions} from "vuex";
 import { mdiCloseCircle, mdiCheckboxMarkedCircle, mdiAlert } from '@mdi/js';
 import Confirmacion from "@/components/confirmacion/Confirmacion";
 
@@ -189,8 +190,10 @@ export default {
   methods: {
     agregarHorario() {
       if (this.time !== null){
-        console.log('Nuevo horario', this.time);
-        this.horariosPastoreo.push({dia: this.diaSelecto, horario: this.time, tiempo: this.tiempoPastoreo});
+        const current = new Date();
+        const diaDiferencia = this.obtenerDias(this.diaSelecto);
+        const dia = current.getFullYear()+'-'+current.getMonth()+'-'+((current.getDate() + diaDiferencia )<10 ? '0' + (current.getDate() + diaDiferencia ) : '' + (current.getDate() + diaDiferencia ))+'T'+this.time+':00';
+        this.horariosPastoreo.push({dia: this.diaSelecto, horario: dia, tiempo: this.tiempoPastoreo});
         this.time = null;
         this.diaSelecto = '';
         this.tiempoPastoreo = null;
@@ -202,15 +205,30 @@ export default {
       console.log('Eliminar el horario', index);
       this.horariosPastoreo.splice(index,1);
     },
+    obtenerDias(dia){
+      const diaHoy = (new Date()).getDay() - 1;
+      let i=0;
+      for (const item of this.diasSemana) {
+        if (dia === item){
+          break;
+        }
+        i = i +1;
+      }
+      return i - diaHoy;
+    },
     infoRegistrada() {
-      console.log('Información del día', this.diaSelecto);
-      console.log('Información del horario', this.time);
-      console.log('Información del tiempo', this.tiempoPastoreo);
       if (this.actualizar) {
         console.log("este es un registro de actualizacion");
         this.actualizar = false;
       } else {
-        console.log("Este es un registro nuevo");
+        const payload = [];
+        for (const horario of this.horariosPastoreo) {
+          payload.push({idFamilia: this.$route.params.id, tiempo: horario.tiempo, horario: horario.horario, dia:horario.dia, estado: false});
+        }
+        //console.log('Imprime los resultados de los dias', payload);
+        for (const pastoreo of payload) {
+          this.registerPastoreo({payload: pastoreo});
+        }
         this.registrado = true;
       }
       this.dialogConfirmacion = false;
@@ -218,14 +236,32 @@ export default {
     actualizarPastoreo(){
       this.registrado = !this.registrado;
       this.actualizar = true;
-    }
+    },
+    ...mapActions({
+      getValidarPastoreo: 'veterinario/validacion/getValidarPastoreo',
+      getPastoreoFamilia: 'veterinario/pastoreo/getPastoreoFamilia',
+      registerPastoreo: 'veterinario/pastoreo/registerPastoreo'
+    }),
+  },
+  computed: {
+    ...mapState({
+      animal: state => state.animal,
+      periodo: state => state.veterinario.pastoreo.periodo,
+      validarPastoreo: state => state.veterinario.validacion.validarPastoreo,
+      pastoreoFamilia: state => state.veterinario.pastoreo.pastoreoFamilia,
+    }),
   },
   mounted() {
-    if (this.idIncidente === '1') {
-      this.horariosPastoreo = [{dia: 'Jueves', horario: '12:30', tiempo: 120}]
-      this.registrado = true;
-
-    }
+    this.getValidarPastoreo({idFamilia: this.$route.params.id }).then( async () => {
+      if (this.validarPastoreo) {
+        this.registrado = true;
+        await this.getPastoreoFamilia({idFamilia: this.$route.params.id, periodo: this.periodo, tipo: this.animal.name});
+        this.horariosPastoreo = this.pastoreoFamilia;
+      } else {
+        console.log('WTF');
+        console.log('Pastoreo no validado');
+      }
+    });
   }
 }
 </script>

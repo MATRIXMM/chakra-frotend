@@ -20,10 +20,10 @@
         :key="n"
       >
         <div v-if="n === 1" style="padding: 15px">
-          <FamiliasRegistradas :nombreAnimal="animal.name" />
+          <Alimentacion />
         </div>
         <div v-if="n === 2" style="padding: 15px">
-          <IncidentesRegistrados :nombreAnimal="animal.name" />
+          <CuidadoSanitario />
         </div>
       </v-tab-item>
     </v-tabs-items>
@@ -31,21 +31,20 @@
 </template>
 
 <script>
-
-import FamiliasRegistradas from "@/components/veterinario/configuracion/FamiliasRegistradas";
-import IncidentesRegistrados from "@/components/veterinario/configuracion/IncidentesRegistrados";
 import {mapState} from "vuex";
+import Alimentacion from "@/components/veterinario/monitoreo/Alimentacion";
+import CuidadoSanitario from "@/components/veterinario/monitoreo/CuidadoSanitario";
 
 export default {
-  components: {
-    FamiliasRegistradas: FamiliasRegistradas,
-    IncidentesRegistrados: IncidentesRegistrados,
-  },
   name: "index",
-  layout: "main",
+  layout: 'main',
+  components: {
+    Alimentacion: Alimentacion,
+    CuidadoSanitario: CuidadoSanitario,
+  },
   data: () => ({
     tab: null,
-    nameTabs: [],
+    nameTabs: ['ALIMENTACION', 'CUIDADO SANITARIO'],
   }),
   computed: {
     ...mapState({
@@ -53,13 +52,9 @@ export default {
     }),
   },
   methods: {
-    getNameTabs(nombreAnimal) {
-      this.nameTabs.push(`familias de ${nombreAnimal} registradas`);
-      this.nameTabs.push(`incidentes de ${nombreAnimal} registradas`);
-    },
   },
   mounted() {
-    this.getNameTabs(this.animal.name);
+    console.log("El animal seleccionado es", this.animal.name);
   }
 }
 </script>

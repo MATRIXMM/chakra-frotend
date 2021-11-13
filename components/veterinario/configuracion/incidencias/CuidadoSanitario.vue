@@ -19,7 +19,7 @@
     </h5>
     <v-card
       elevation="2"
-      width="600px"
+      width="700px"
     >
       <v-card-title
         style="display: flex; justify-content: right;background: #FFEAB5"
@@ -44,8 +44,8 @@
       <v-card-text style="display: flex; justify-content: center; background: #FFEAB5">
         <div>
           <v-row style="align-items: center;margin: 1px">
-            <v-col md="6"><h3>Nombre de evento</h3></v-col>
-            <v-col md="6" no-gutters>
+            <v-col md="5"><h3>Nombre de evento</h3></v-col>
+            <v-col md="7" no-gutters>
               <v-text-field
                 label="Nombre de evento"
                 v-model="nombreEvento"
@@ -57,8 +57,8 @@
             </v-col>
           </v-row>
           <v-row style="align-items: center;margin: 1px">
-            <v-col md="6"><h3>Fecha de evento:</h3></v-col>
-            <v-col md="6" no-gutters>
+            <v-col md="5"><h3>Fecha de evento:</h3></v-col>
+            <v-col md="7" no-gutters>
               <v-menu
                 v-model="menu2"
                 :close-on-content-click="false"
@@ -93,8 +93,8 @@
             </v-col>
           </v-row>
           <v-row style="display: flex; justify-content: right; margin: 1px">
-            <v-col md="6"></v-col>
-            <v-col md="6" style="justify-content: right; display: flex">
+            <v-col md="5"></v-col>
+            <v-col md="7" style="justify-content: right; display: flex">
               <v-btn
                 color="primary"
                 rounded
@@ -110,7 +110,7 @@
           <div style="margin: 1px; padding: 10px">
             <v-card rounded v-for="(evento,index) in eventos" :key="index" style="margin: 5px; background: #DEFFA1; padding: 10px">
               <v-card-title style="display: flex; justify-content: right; padding: 2px">
-                <v-icon @click="eliminarEvento(index)" :disabled="registrado">{{icons.mdiCloseCircle}}</v-icon>
+                <v-icon @click="" :disabled="registrado">{{icons.mdiCloseCircle}}</v-icon>
               </v-card-title>
               <v-card-text style="padding: 5px; display: flex; justify-content: center">
                 <h3>
@@ -118,7 +118,7 @@
                 </h3>
               </v-card-text>
               <v-card-actions style="padding: 5px; display: flex; justify-content: center">
-                Fecha: {{evento.dia}}
+                Fecha: {{evento.fecha}}
               </v-card-actions>
             </v-card>
           </div>
@@ -129,6 +129,7 @@
 </template>
 
 <script>
+import {mapState, mapActions} from "vuex";
 import {mdiAlert, mdiCheckboxMarkedCircle, mdiCloseCircle} from '@mdi/js';
 import Confirmacion from "@/components/confirmacion/Confirmacion";
 
@@ -165,7 +166,8 @@ export default {
   methods: {
     agregarEvento() {
       if (this.nombreEvento !== null){
-        this.eventos.push({nombre: this.nombreEvento, dia: this.date});
+        this.eventos.push({idIncidencia:this.$route.params.id , nombre: this.nombreEvento, fecha: this.date, estado: false});
+        console.log('Evento registrado', this.eventos);
         this.nombreEvento = '';
         this.date = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
       }else{
@@ -181,7 +183,21 @@ export default {
         console.log("este es un registro de actualizacion");
         this.actualizar = false;
       } else {
-        console.log("Este es un registro nuevo");
+        const payload = {
+          idFamilia: this.incidenteSeleccionado.idFamilia,
+          idIncidencia: this.eventos[0].idIncidencia,
+          nombre: this.eventos[0].nombre,
+          fecha: this.eventos[0].fecha,
+          estado: this.eventos[0].estado,
+          fechaRegistro: this.incidenteSeleccionado.fechaRegistro,
+          nombreAnimal: this.incidenteSeleccionado.nombreAnimal,
+          cantidadAnimales: this.incidenteSeleccionado.cantidadAnimales,
+          gravedadIncidencia: this.incidenteSeleccionado.gravedadIncidencia,
+          observacion: this.incidenteSeleccionado.observacion,
+        };
+        //console.log("Este es un registro nuevo", payload);
+        this.registerCuidadoSanitarioIncidencia({payload: payload});
+        this.getCuidadoSanitarioIncidencia({idIncidencia: this.$route.params.id, periodo: this.periodo, tipo: this.animal.name});
         this.registrado = true;
       }
       this.dialogConfirmacion = false;
@@ -189,14 +205,34 @@ export default {
     actualizarCuidadoSanitario(){
       this.registrado = !this.registrado;
       this.actualizar = true;
-    }
+    },
+    ...mapActions({
+      getValidarCuidadoSanitarioIncidente: 'veterinario/validacion/getValidarCuidadoSanitarioIncidente',
+      getCuidadoSanitarioIncidencia: 'veterinario/cuidadoSanitario/getCuidadoSanitarioIncidencia',
+      registerCuidadoSanitarioIncidencia: 'veterinario/cuidadoSanitario/registerCuidadoSanitarioIncidencia',
+    }),
+  },
+  computed: {
+    ...mapState({
+      animal: state => state.animal,
+      periodo: state => state.veterinario.pastoreo.periodo,
+      validarCuidadoSanitarioIncidente: state => state.veterinario.validacion.validarCuidadoSanitarioIncidente,
+      cuidadoSanitarioIncidente: state => state.veterinario.cuidadoSanitario.cuidadoSanitarioIncidente,
+      incidenteSeleccionado: state => state.admin.sanitario.incidenteSeleccionado,
+    }),
   },
   mounted() {
-    if (this.idIncidente === '2') {
-      this.eventos = [{nombre: 'Vacunacion A', dia: '2021-05-12'},{nombre: 'Vacunacion B', dia: '2021-09-12'}];
-      this.registrado = true;
-
-    }
+    this.getValidarCuidadoSanitarioIncidente({idIncidencia: this.$route.params.id }).then( async () => {
+      if (this.validarCuidadoSanitarioIncidente) {
+        this.registrado = true;
+        await this.getCuidadoSanitarioIncidencia({idIncidencia: this.$route.params.id, periodo: this.periodo, tipo: this.animal.name}).then(() => {
+          console.log('Incidencia de animal mostrar', this.cuidadoSanitarioIncidente);
+          this.eventos = this.cuidadoSanitarioIncidente;
+        });
+      } else {
+        console.log('Cuidado Sanitario no validado');
+      }
+    });
   },
 }
 </script>

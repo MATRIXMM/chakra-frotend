@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-if="registrado" style="margin: 10px; margin-bottom: 30px">
+    <h1>
+      Configuración > Familia de animales registrados > {{this.$route.params.id}}
+    </h1>
+    <div v-if="registrado" style="margin: 10px 10px 30px;">
       <p>Periodo de configuración disponible por 6 meses</p>
       <v-progress-linear
         v-model="porcentaje"
@@ -55,7 +58,7 @@ export default {
     }
   },
   mounted() {
-    console.log('imprime el id de la pagina', this.$route.params.id);
+    //console.log('imprime el id de la pagina', this.$route.params.id);
   }
 }
 </script>
